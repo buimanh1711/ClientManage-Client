@@ -68,7 +68,7 @@ const globalReducer = (state = initialState, action) => {
     }
 
     case 'GET_USER_DATA': {
-      const { login, firstName, request, _id, credit, image, lastName, coins, role, token, notif, bought, username, phone } = action.payload
+      const { login, fullName, address, _id, image, role, token, email, username, phone } = action.payload
       localStorage.setItem('accessToken', token)
       return {
         ...state,
@@ -76,39 +76,31 @@ const globalReducer = (state = initialState, action) => {
         user: {
           _id,
           username,
-          request,
-          firstName,
-          lastName,
+          fullName,
           role,
-          credit,
-          coins,
-          userNotif: notif,
-          userBought: bought,
           userImage: image,
-          phone
+          phone,
+          email,
+          address,
         }
       }
     }
 
     case 'AUTHENTICATION': {
       const { login, user } = action.payload
-      const { firstName, request, image, _id, credit, lastName, coins, role, notif, bought, username, phone } = user
+      const { fullName, address, _id, image, role, email, username, phone } = user
       return {
         ...state,
         login: login,
         user: {
           _id,
           username,
-          firstName,
-          lastName,
+          fullName,
           role,
-          coins,
-          credit,
-          request,
-          userNotif: notif,
-          userBought: bought,
           userImage: image,
-          phone
+          phone,
+          email,
+          address,
         }
       }
     }
@@ -120,19 +112,12 @@ const globalReducer = (state = initialState, action) => {
         user: {
           _id: '',
           username: '',
-          firstName: '',
-          lastName: '',
+          fullName: '',
           role: '',
-          coins: 0,
-          credit: {
-            number: '',
-            bank: ''
-          },
-          request: [],
-          userNotif: [],
-          userBought: [],
           userImage: null,
-          phone: ''
+          phone: '',
+          email: '',
+          address: ''
         }
       }
     }
