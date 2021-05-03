@@ -12,7 +12,7 @@ export const loginAuth = (userData) => {
 export const register = (userData) => {
   return request('/register', 'POST', userData)
 }
-//productS
+//GUESTS
 export const getAllGuests = (query) => {
   const { address, start, end, page } = query
   var url = `/guests?page=${page || 1}&`
@@ -43,11 +43,11 @@ export const searchGuest = (query) => {
   return request(`/search?q=${query}`, 'GET')
 }
 
-export const addProduct = (_id, totalMoney, product) => {
-  return request(`/guests/${_id}/bought`, 'PUT', { totalMoney, product } )
+export const addProduct = (_id, totalMoney, productId) => {
+  return request(`/guests/${_id}/bought`, 'PUT', { totalMoney, productId } )
 }
 
-//USER
+//USERS
 export const createUser = (data) => {
   return request('/accounts', 'POST', data)
 }
@@ -63,3 +63,39 @@ export const updateAvt = (_id, data) => {
 export const getUser = (_id) => {
   return request(`/accounts/${_id}`, 'GET')
 }
+
+export const getAllUsers = (query) => {
+  const { page } = query
+  return request(`/accounts?page=${page || 1}`, 'GET')
+}
+
+export const deleteUser = (_id) => {
+  return request(`/accounts/${_id}`, 'DELETE')
+}
+
+//PRODUCTS
+
+export const getAllProducts = (query) => {
+  const { page, category } = query
+  let url = `/products?page=${page || 1}&`
+
+  if (category) {
+    url = url + `category=${category}`
+  }
+
+  return request(url, 'GET')
+}
+
+export const createProduct = (data) => {
+  return request('/products', 'POST', data)
+}
+
+export const updateProduct = (_id, data) => {
+  return request(`/products/${_id}`, 'PUT', data)
+}
+
+export const removeProduct = (_id) => {
+  return request(`/products/${_id}`, 'DELETE')
+}
+
+//PRODUCT CATEGORIES

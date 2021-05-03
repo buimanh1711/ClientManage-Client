@@ -27,13 +27,6 @@ export const authAsync = (payload) => {
 
 }
 
-export const getUserData = (userData) => {
-  return {
-    type: 'GET_USER_DATA',
-    payload: userData
-  }
-}
-
 export const toggleLoading = (payload) => {
   return {
     type: 'TOGGLE_LOADING',
@@ -48,24 +41,6 @@ export const triggerNotif = (payload) => {
   }
 }
 
-export const getCategoriesAsync = () => {
-  return (dispatch) => {
-    API.getCategories()
-      .then(res => {
-        if (res.data && res.data.status) {
-          dispatch(getCategories(res.data.categories))
-        }
-      })
-  }
-}
-
-const getCategories = (payload) => {
-  return {
-    type: 'GET_CATEGORIES',
-    payload
-  }
-}
-
 export const getAllProductsAsync = (query) => {
   return dispatch => {
     dispatch(toggleLoading(true))
@@ -74,7 +49,6 @@ export const getAllProductsAsync = (query) => {
       .then(res => {
         if (res.data && res.data.status) {
           dispatch(getAllProducts(res.data.products))
-          dispatch(toggleLoading(false))
         } else {
           triggerNotif({
             type: 'ERROR',
@@ -101,25 +75,78 @@ export const getAllProducts = (payload) => {
   }
 }
 
-export const getProductAsync = (slug) => {
+export const getAllGuestsAsync = (query) => {
   return dispatch => {
-    API.getOneProduct(slug)
+    dispatch(toggleLoading(true))
+
+    API.getAllGuests(query)
       .then(res => {
         if (res.data && res.data.status) {
-          dispatch(getProduct(res.data.product))
+          dispatch(getAllGuests(res.data.guests))
         } else {
-
+          triggerNotif({
+            type: 'ERROR',
+            content: res.data.message
+          })
         }
       })
       .catch(err => {
-
+        dispatch(triggerNotif({
+          type: 'ERROR',
+          content: 'SERVER_ERROR!'
+        }))
+      })
+      .then(() => {
+        dispatch(toggleLoading(false))
       })
   }
 }
 
-const getProduct = (payload) => {
+export const getAllGuests = (payload) => {
   return {
-    type: 'GET_ONE_PRODUCT',
+    type: 'GET_ALL_GUESTS',
     payload
   }
 }
+
+export const getAllUsersAsync = (query) => {
+  return dispatch => {
+    dispatch(toggleLoading(true))
+
+    API.getAllUsers(query)
+      .then(res => {
+        if (res.data && res.data.status) {
+          dispatch(getAllGuests(res.data.users))
+        } else {
+          triggerNotif({
+            type: 'ERROR',
+            content: res.data.message
+          })
+        }
+      })
+      .catch(err => {
+        dispatch(triggerNotif({
+          type: 'ERROR',
+          content: 'SERVER_ERROR!'
+        }))
+      })
+      .then(() => {
+        dispatch(toggleLoading(false))
+      })
+  }
+}
+
+export const getAllUsers = (payload) => {
+  return {
+    type: 'GET_ALL_USERS',
+    payload
+  }
+}
+
+export const getUserData = (userData) => {
+  return {
+    type: 'GET_USER_DATA',
+    payload: userData
+  }
+}
+

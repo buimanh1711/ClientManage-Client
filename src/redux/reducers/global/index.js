@@ -36,7 +36,9 @@ const initialState = {
       type: 'VIP',
       range: [50000000, null]
     },
-  ]
+  ],
+  products: [],
+  productCategories: []
 }
 
 const globalReducer = (state = initialState, action) => {
@@ -55,6 +57,24 @@ const globalReducer = (state = initialState, action) => {
       return {
         ...state,
         guests: [
+          ...action.payload
+        ]
+      }
+    }
+
+    case 'GET_ALL_PRODUCTS': {
+      return {
+        ...state,
+        products: [
+          ...action.payload
+        ]
+      }
+    }
+
+    case 'GET_ALL_USERS': {
+      return {
+        ...state,
+        users: [
           ...action.payload
         ]
       }
