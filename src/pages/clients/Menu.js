@@ -1,10 +1,10 @@
-const ClientMenu = () => {
+const ClientMenu = ({ setCreateForm }) => {
   return (
     <div id='client-menu'>
       <div className='client-menu-container'>
         <ul>
           <li className='add'>
-            <button>
+            <button onClick={() => setCreateForm(true)}>
               <i class="fas fa-plus"></i>
               <span>
                 Thêm khách hàng

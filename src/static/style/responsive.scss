@@ -1,16 +1,31 @@
 @media (max-width: 479.98px) {
 }
 @media (max-width: 575.98px) {
-
+  #client-tab #client-list ul .title-row {
+    display: none;
+  }
 }
 
 @media (max-width: 767.98px) {
-
+  #client-tab #client-menu ul {
+    flex-direction: column;
+    li {
+      width: 100%;
+      margin: 0;
+      margin-bottom: 12px;
+      input, select {
+        width: 100%;
+        margin: 0 !important;
+      }
+    }
+  }
 }
 
 @media (max-width: 991.98px) {
+  #client-tab #client-create {
+    left: 0;
+  }
   .side__bar-container {
-    position: fixed;
     width: 300px;
     z-index: 100;
     transform: translateX(-100%);

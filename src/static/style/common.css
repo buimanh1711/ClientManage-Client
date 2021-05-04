@@ -18,7 +18,8 @@ input {
 
 a {
   cursor: pointer;
-  text-decoration: none;
+  text-decoration: none !important;
+  color: black;
   outline: none;
 }
 
@@ -67,6 +68,17 @@ a {
   color: white;
 }
 
+
+.side__bar-container {
+  position: fixed;
+  width: 25%;
+}
 .side__bar-container button {
   display: none;
+}
+
+
+.page-item.current a {
+  background: rgb(85, 101, 248) !important;
+  color: white;
 }
