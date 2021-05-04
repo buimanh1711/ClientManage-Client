@@ -4,8 +4,9 @@ import MainLayout from './layouts/MainLayout'
 
 import './static/style/common.css'
 import './static/style/sidebar.scss'
+import './static/style/main.scss'
 import './static/style/header.scss'
-import './static/style/clients.scss'
+import './static/style/client.scss'
 
 import './static/style/responsive.scss'
 

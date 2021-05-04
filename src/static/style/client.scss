@@ -1,0 +1,50 @@
+#client-tab {
+  padding: 12px;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    li {
+      margin-right: 12px;
+      label {
+        margin: 0;
+      }
+      input {
+        margin-left: 4px;
+        border-radius: 0px;
+        border: 1px solid rgb(219, 219, 219);
+        font-size: .9rem;
+        padding: 4px 8px;
+        outline: none;
+      }
+      select {
+        padding: 4px 12px;
+        border: 1px solid rgb(216, 216, 216);
+        background: rgb(233, 233, 233);
+        cursor: pointer;
+        margin: 0;
+        outline: none;
+        option {
+          padding: 4px 12px;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .add {
+      margin-right: auto;
+      button {
+        padding: 4px 12px;
+        border-radius: 4px;
+        background: rgb(74, 93, 122);
+        color: white;
+        i {
+          font-size: .9rem;
+          margin-right: 12px;
+        }
+      }
+    }
+  }
+}

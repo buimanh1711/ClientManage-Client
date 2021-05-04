@@ -1,7 +1,11 @@
+import ClientMenu from "./Menu"
+
 const Client = () => {
   return (
     <div id='client-tab'>
-      Clients
+      <div className='client-container'>
+        <ClientMenu />
+      </div>
     </div>
   )
 }
