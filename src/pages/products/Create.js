@@ -10,7 +10,7 @@ const Create = ({ status, setCreateForm }) => {
   const login = useSelector(state => state.global.login)
   const dispatch = useDispatch()
 
-  const countries = useSelector(state => state.global.countries)
+  const categories = useSelector(state => state.global.categories)
   
   const nameEl = useRef(null)
   const categoryEl = useRef(null)
@@ -43,7 +43,10 @@ const Create = ({ status, setCreateForm }) => {
           console.log(res.data)
           dispatch({
             type: 'CREATE_PRODUCT',
-            payload: res.data.newProduct
+            payload: {
+              ...data,
+              category: JSON.parse(categoryEl.current.value)
+            }
           })
         } else {
           // dispatch(triggerNotif({
@@ -87,10 +90,10 @@ const Create = ({ status, setCreateForm }) => {
                 <select required defaultValue='Thể loại' ref={categoryEl} name="categories">
                   <option value="Thể loại" disabled hidden>Thể loại</option>
                   {
-                    countries && countries.length > 0 &&
-                    countries.map(item =>
+                    categories && categories.length > 0 &&
+                    categories.map(item =>
                       <option key={item.id} value={JSON.stringify(item)}>
-                        {item.name}
+                        {item.title}
                       </option>
                     )
                   }

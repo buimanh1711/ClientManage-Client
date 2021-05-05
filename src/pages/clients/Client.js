@@ -36,7 +36,7 @@ const ClientInfo = ({ clientInfo, setClientInfo }) => {
           <div className='client-info-container'>
             <div className='form'>
               <button onClick={close}>
-                <i class="fas fa-times"></i>
+                <i className="fas fa-times"></i>
               </button>
               <h4>Thông tin khách hàng</h4>
               <div className='form-container'>

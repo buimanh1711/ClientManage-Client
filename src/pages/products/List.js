@@ -1,8 +1,14 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Pagination from '../../global/Pagination'
+import { removeProductAsync } from '../../redux/actions'
 const ProductList = ({ setClientInfo, setUpdateForm, setProduct }) => {
   const products = useSelector(state => state.global.products)
+  const dispatch = useDispatch()
+
+  const deleteProduct = (_id) => {
+    dispatch(removeProductAsync(_id))
+  }
 
   return (
     <div id='product-list'>
@@ -35,14 +41,14 @@ const ProductList = ({ setClientInfo, setUpdateForm, setProduct }) => {
                       <span className='name'>
                         {item.name}
                     </span>
-                      <span style={{ fontWeight: 'bold' }}>{item.category && item.category.name || 'Đang cập nhật'}</span>
+                      <span style={{ fontWeight: 'bold' }}>{item.category && item.category.title || 'Đang cập nhật'}</span>
                       <span>{item.price}đ</span>
                     </div>
                     <div className='tools'>
                       <button className='edit' onClick={() => setUpdateForm({ status: true, info: item })}>
                         <i className="fas fa-edit"></i>
                       </button>
-                      <button className='remove'>
+                      <button onClick={() => deleteProduct(item._id)} className='remove'>
                         <i className="fas fa-trash-alt"></i>
                       </button>
                     </div>

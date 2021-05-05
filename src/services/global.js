@@ -43,8 +43,8 @@ export const searchGuest = (query) => {
   return request(`/search?q=${query}`, 'GET')
 }
 
-export const addProduct = (_id, totalMoney, productId) => {
-  return request(`/guests/${_id}/bought`, 'PUT', { totalMoney, productId } )
+export const addProduct = (_id, totalMoney, productId,) => {
+  return request(`/guests/${_id}/bought`, 'PUT', { totalMoney, productId, quantity: 1 } )
 }
 
 //USERS
@@ -99,3 +99,7 @@ export const removeProduct = (_id) => {
 }
 
 //PRODUCT CATEGORIES
+
+export const getAllCategories = () => {
+  return request(`/categories`, 'GET')
+}

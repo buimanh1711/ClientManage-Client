@@ -14,7 +14,7 @@ import './static/style/sign.scss'
 import './static/style/staff.scss'
 
 import './static/style/responsive.scss'
-import { auth, getAllGuestsAsync, getAllProductsAsync, getAllUsersAsync } from './redux/actions'
+import { auth, getAllCategoriesAsync, getAllGuestsAsync, getAllProductsAsync, getAllUsersAsync } from './redux/actions'
 import Loading from './global/Loading'
 
 function App() {
@@ -28,6 +28,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getAllProductsAsync({}))
+    dispatch(getAllCategoriesAsync())
   }, [dispatch])
 
   useEffect(() => {

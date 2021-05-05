@@ -5,23 +5,14 @@ import { useSelector, useDispatch } from 'react-redux'
 const Update = ({ updateForm, setUpdateForm }) => {
   const history = useHistory()
 
-  const login = useSelector(state => state.global.login)
   const dispatch = useDispatch()
-
-  const countries = useSelector(state => state.global.countries)
+  const login = useSelector(state => state.global.login)
+  const categories = useSelector(state => state.global.categories)
+  const { info } = updateForm
 
   const nameEl = useRef(null)
   const categoryEl = useRef(null)
   const priceEl = useRef(null)
-
-  useEffect(() => {
-    // if (!login) {
-    //   setTimeout(() => {
-    //     history.replace('/login')
-    //   }, 1000)
-    // }
-  }, [])
-
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -60,30 +51,33 @@ const Update = ({ updateForm, setUpdateForm }) => {
     <>
       {
         updateForm.status &&
-        <div id='product-create'>
+        <div key={info._id} id='product-create'>
           <div className='create-container'>
             <form onSubmit={handleSubmit} className='create-form'>
-              <span onClick={() => { setUpdateForm({status: false, info: {}}) }} className='close'>
+              <span onClick={() => { setUpdateForm({ status: false, info: {} }) }} className='close'>
                 <i className="fas fa-times"></i>
               </span>
               <h4>Cập nhật sản phẩm</h4>
               <div className='create-name'>
                 <label htmlFor='create_name'>Tên SP: </label>
-                <input required ref={nameEl} id='create_name' />
+                <input required ref={nameEl} id='create_name' defaultValue={info.name} />
               </div>
               <div className='create-phone'>
                 <label htmlFor='create_phone'>Giá: </label>
-                <input required ref={priceEl} id='create_phone' type='number' min={1000} />
+                <input required ref={priceEl} id='create_phone' defaultValue={info.price} type='number' min={1000} />
               </div>
               <div className='create-address'>
-                <select required defaultValue='Thể loại' ref={categoryEl} name="categories">
+                <select key={info._id} ref={categoryEl} required defaultValue={JSON.stringify(info.categorys)} name="categories">
                   <option value="Thể loại" disabled hidden>Thể loại</option>
                   {
-                    countries && countries.length > 0 &&
-                    countries.map(item =>
-                      <option key={item.id} value={JSON.stringify(item)}>
-                        {item.name}
-                      </option>
+                    categories && categories.length > 0 &&
+                    categories.map(item => {
+                      return (
+                        <option selected={item._id == (info.category && info.category._id)} key={item._id} value={JSON.stringify(item)}>
+                          {item.title}
+                        </option>
+                      )
+                    }
                     )
                   }
                 </select>

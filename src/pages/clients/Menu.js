@@ -5,13 +5,13 @@ const ClientMenu = ({ setCreateForm }) => {
         <ul>
           <li className='add'>
             <button onClick={() => setCreateForm(true)}>
-              <i class="fas fa-plus"></i>
+              <i className="fas fa-plus"></i>
               <span>
                 Thêm khách hàng
               </span>
             </button>
           </li>
-          <li classsName='name'>
+          <li className='name'>
             <label htmlFor='name'>
               Tên
             </label>

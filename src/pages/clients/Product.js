@@ -42,7 +42,7 @@ const Product = ({ product, setProduct }) => {
               products && products.length > 0 &&
               <div className='form'>
                 <button className='close-btn' onClick={() => setProduct(false)}>
-                  <i class="fas fa-times"></i>
+                  <i className="fas fa-times"></i>
                 </button>
                 <h4>Tất cả sản phẩm</h4>
                 <form>

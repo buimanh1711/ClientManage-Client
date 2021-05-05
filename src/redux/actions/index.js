@@ -150,3 +150,66 @@ export const getUserData = (userData) => {
   }
 }
 
+export const getAllCategoriesAsync = () => {
+  return dispatch => {
+    API.getAllCategories()
+      .then(res => {
+        if (res.data && res.data.status) {
+          dispatch(getAllCategories(res.data.categories))
+        } else {
+          triggerNotif({
+            type: 'ERROR',
+            content: res.data.message
+          })
+        }
+      })
+      .catch(err => {
+        dispatch(triggerNotif({
+          type: 'ERROR',
+          content: 'SERVER_ERROR!'
+        }))
+      })
+      .then(() => {
+        dispatch(toggleLoading(false))
+      })
+  }
+}
+
+export const removeProduct = (payload) => {
+  return {
+    type: 'REMOVE_PRODUCT',
+    payload
+  }
+}
+
+export const removeProductAsync = (_id) => {
+  return dispatch => {
+    API.removeProduct(_id)
+      .then(res => {
+        if (res.data && res.data.status) {
+          dispatch(removeProduct(_id))
+        } else {
+          triggerNotif({
+            type: 'ERROR',
+            content: res.data.message
+          })
+        }
+      })
+      .catch(err => {
+        dispatch(triggerNotif({
+          type: 'ERROR',
+          content: 'SERVER_ERROR!'
+        }))
+      })
+      .then(() => {
+        dispatch(toggleLoading(false))
+      })
+  }
+}
+
+export const getAllCategories = (payload) => {
+  return {
+    type: 'GET_CATEGORIES',
+    payload
+  }
+}

@@ -151,7 +151,7 @@ const initialState = {
   guest: {},
   profile: {},
   products: [],
-  productCategories: []
+  categories: []
 }
 
 const globalReducer = (state = initialState, action) => {
@@ -217,11 +217,27 @@ const globalReducer = (state = initialState, action) => {
       }
     }
 
+    case 'REMOVE_PRODUCT': {
+      const { products } = state
+      return {
+        ...state,
+        products: products.filter(x => x._id !== action.payload)
+      }
+    }
+
     case 'GET_ALL_USERS': {
-      console.log(action)
       return {
         ...state,
         users: [
+          ...action.payload
+        ]
+      }
+    }
+
+    case 'GET_CATEGORIES': {
+      return {
+        ...state,
+        categories: [
           ...action.payload
         ]
       }
