@@ -116,7 +116,7 @@ export const getAllUsersAsync = (query) => {
     API.getAllUsers(query)
       .then(res => {
         if (res.data && res.data.status) {
-          dispatch(getAllGuests(res.data.users))
+          dispatch(getAllUsers(res.data.staffs))
         } else {
           triggerNotif({
             type: 'ERROR',

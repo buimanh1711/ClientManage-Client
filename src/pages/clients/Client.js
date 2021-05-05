@@ -5,15 +5,17 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { createProduct } from '../../services/global'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleLoading, triggerNotif } from '../../redux/actions'
+import getMedal from '../../utils/getMedal'
+import { date } from '../../utils/getDate'
 
-const ClientInfo = ({ status, setCreateForm }) => {
+const ClientInfo = ({ clientInfo, setClientInfo }) => {
   const history = useHistory()
 
   const login = useSelector(state => state.global.login)
   const dispatch = useDispatch()
 
-  const countries = useSelector(state => state.global.countries)
-
+  const { info } = clientInfo
+  const { bought } = info
   useEffect(() => {
     // if (!login) {
     //   setTimeout(() => {
@@ -22,14 +24,72 @@ const ClientInfo = ({ status, setCreateForm }) => {
     // }
   }, [])
 
+  const close = () => {
+    setClientInfo({ status: false, info: {} })
+  }
+
   return (
     <>
       {
-        status &&
+        clientInfo.status &&
         <div id='client-client-info'>
           <div className='client-info-container'>
             <div className='form'>
-              
+              <button onClick={close}>
+                <i class="fas fa-times"></i>
+              </button>
+              <h4>Thông tin khách hàng</h4>
+              <div className='form-container'>
+                <div className='info'>
+                  <div>
+                    <strong>ID:</strong><span>{info._id}</span>
+                  </div>
+                  <div>
+                    <strong>Họ tên:</strong><span>{info.fullName}</span></div>
+                  <div>
+                    <strong>Loại KH:</strong><span>{getMedal(info.totalMoney)}</span>
+                  </div>
+                  <div>
+                    <strong>Khu vực:</strong><span>{info.address && info.address.name}</span>
+                  </div>
+                  <div>
+                    <strong>CMND:</strong><span>{info.cmnd}</span>
+                  </div>
+                  <div>
+                    <strong>SĐT:</strong><span>{info.phone}</span>
+                  </div>
+                  <div>
+                    <strong>Tổng chi tiêu:</strong><span>{info.totalMoney}đ</span>
+                  </div>
+                  <div>
+                    <strong></strong>
+                  </div>
+                </div>
+                <div className='products'>
+                  <p><strong>Sản phẩm đã mua</strong></p>
+                  {
+                    bought && bought.length > 0 &&
+                    <ul className='scroll'>
+                      <li className='title-row'>
+                        <span className='count'>STT</span>
+                        <span>Tên</span>
+                        <span>Giá</span>
+                        <span>Ngày mua</span>
+                      </li>
+                      {
+                        bought.map((item, index) => (
+                          <li key={item.product._id}>
+                            <span className='count'>{index + 1}</span>
+                            <span>{item.product.name}</span>
+                            <span>{item.product.price}đ</span>
+                            <span>{date(item.product.createAt)}</span>
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  }
+                </div>
+              </div>
             </div>
           </div>
         </div>

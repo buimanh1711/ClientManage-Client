@@ -76,7 +76,7 @@ export const deleteUser = (_id) => {
 //PRODUCTS
 
 export const getAllProducts = (query) => {
-  const { page, category } = query
+  const { page, category } = query || {}
   let url = `/products?page=${page || 1}&`
 
   if (category) {

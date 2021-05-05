@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { createProduct } from '../../services/global'
 import { useSelector, useDispatch } from 'react-redux'
-import { toggleLoading } from '../../redux/actions'
-import { createGuest } from '../../services/global'
+import { toggleLoading, triggerNotif } from '../../redux/actions'
 
-const Create = ({ status, setCreateForm }) => {
+const Update = ({ updateForm, setUpdateForm }) => {
   const history = useHistory()
 
   const login = useSelector(state => state.global.login)
@@ -32,46 +34,45 @@ const Create = ({ status, setCreateForm }) => {
     const name = nameEl.current.value.trim()
     const id = idEl.current.value.trim()
     const phone = phoneEl.current.value.trim()
-    const address = addEl.current.value !== 'Quận/Huyện' && JSON.parse(addEl.current.value) || null
+    const address = addEl.current.value.trim()
     const data = {
-      fullName: name, cmnd: id, phone, address
+      name, cmnd: id, phone, address
     }
-    dispatch(toggleLoading(true))
-    createGuest(data)
-      .then(res => {
-        if (res.data && res.data.status) {
-          dispatch({
-            type: 'CREATE_GUEST',
-            payload: res.data.newGuest
-          })
-        } else {
-          alert('Lỗi thêm khách hàng!')
-        }
-      })
-      .catch(err => {
-        alert(err)
-        // dispatch(triggerNotif({
-        //   type: 'ERROR',
-        //   content: 'SERVER_ERROR!'
-        // }))
-      })
-      .then(() => {
-        dispatch(toggleLoading(false))
-        setCreateForm(false)
-      })
+    console.log(data)
+    // dispatch(toggleLoading(true))
+    // createProduct(data)
+    //   .then(res => {
+    //     if (res.data && res.data.status) {
+    //       console.log('successfully')
+    //     } else {
+    //       dispatch(triggerNotif({
+    //         type: 'ERROR',
+    //         content: res.data.message
+    //       }))
+    //     }
+    //   })
+    //   .catch(err => {
+    //     dispatch(triggerNotif({
+    //       type: 'ERROR',
+    //       content: 'SERVER_ERROR!'
+    //     }))
+    //   })
+    //   .then(() => {
+    //     dispatch(toggleLoading(false))
+    //   })
   }
 
   return (
     <>
       {
-        status &&
+        updateForm.status &&
         <div id='client-create'>
           <div className='create-container'>
             <form onSubmit={handleSubmit} className='create-form'>
-              <span onClick={() => {setCreateForm(false)}} className='close'>
+              <span onClick={() => {setUpdateForm({status: false, info: {}})}} className='close'>
                 <i className="fas fa-times"></i>
               </span>
-              <h4>Thêm khách hàng</h4>
+              <h4>Sửa thông tin khách hàng</h4>
               <div className='create-name'>
                 <label htmlFor='create_name'>Họ Tên: </label>
                 <input required ref={nameEl} id='create_name' />
@@ -108,4 +109,4 @@ const Create = ({ status, setCreateForm }) => {
   )
 }
 
-export default Create
+export default Update

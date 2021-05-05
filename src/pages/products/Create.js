@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleLoading } from '../../redux/actions'
-import { createGuest } from '../../services/global'
+import { createProduct } from '../../services/global'
 
 const Create = ({ status, setCreateForm }) => {
   const history = useHistory()
@@ -13,9 +13,8 @@ const Create = ({ status, setCreateForm }) => {
   const countries = useSelector(state => state.global.countries)
   
   const nameEl = useRef(null)
-  const idEl = useRef(null)
-  const phoneEl = useRef(null)
-  const addEl = useRef(null)
+  const categoryEl = useRef(null)
+  const priceEl = useRef(null)
 
   useEffect(() => {
     // if (!login) {
@@ -30,26 +29,30 @@ const Create = ({ status, setCreateForm }) => {
     e.preventDefault()
 
     const name = nameEl.current.value.trim()
-    const id = idEl.current.value.trim()
-    const phone = phoneEl.current.value.trim()
-    const address = addEl.current.value !== 'Quận/Huyện' && JSON.parse(addEl.current.value) || null
+    const price = priceEl.current.value.trim()
+    const category = categoryEl.current.value !== 'Thể loại' && JSON.parse(categoryEl.current.value)._id || null
     const data = {
-      fullName: name, cmnd: id, phone, address
+      name, category, price
     }
+
+    console.log(data)
     dispatch(toggleLoading(true))
-    createGuest(data)
+    createProduct(data)
       .then(res => {
         if (res.data && res.data.status) {
+          console.log(res.data)
           dispatch({
-            type: 'CREATE_GUEST',
-            payload: res.data.newGuest
+            type: 'CREATE_PRODUCT',
+            payload: res.data.newProduct
           })
         } else {
-          alert('Lỗi thêm khách hàng!')
+          // dispatch(triggerNotif({
+          //   type: 'ERROR',
+          //   content: res.data.message
+          // }))
         }
       })
       .catch(err => {
-        alert(err)
         // dispatch(triggerNotif({
         //   type: 'ERROR',
         //   content: 'SERVER_ERROR!'
@@ -65,28 +68,24 @@ const Create = ({ status, setCreateForm }) => {
     <>
       {
         status &&
-        <div id='client-create'>
+        <div id='product-create'>
           <div className='create-container'>
             <form onSubmit={handleSubmit} className='create-form'>
               <span onClick={() => {setCreateForm(false)}} className='close'>
                 <i className="fas fa-times"></i>
               </span>
-              <h4>Thêm khách hàng</h4>
+              <h4>Thêm sản phẩm</h4>
               <div className='create-name'>
-                <label htmlFor='create_name'>Họ Tên: </label>
+                <label htmlFor='create_name'>Tên SP: </label>
                 <input required ref={nameEl} id='create_name' />
               </div>
-              <div className='create-id'>
-                <label htmlFor='create_id'>CMND: </label>
-                <input required ref={idEl} id='create_id' />
-              </div>
               <div className='create-phone'>
-                <label htmlFor='create_phone'>SĐT: </label>
-                <input required ref={phoneEl} id='create_phone' />
+                <label htmlFor='create_phone'>Giá: </label>
+                <input required ref={priceEl} id='create_phone' type='number' min={1000} />
               </div>
               <div className='create-address'>
-                <select required defaultValue='Quận/Huyện' ref={addEl} name="categories">
-                  <option value="Quận/Huyện" disabled hidden>Quận/Huyện</option>
+                <select required defaultValue='Thể loại' ref={categoryEl} name="categories">
+                  <option value="Thể loại" disabled hidden>Thể loại</option>
                   {
                     countries && countries.length > 0 &&
                     countries.map(item =>

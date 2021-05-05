@@ -150,24 +150,6 @@ const initialState = {
   guests: [],
   guest: {},
   profile: {},
-  categories: [
-    {
-      type: 'Vãng lai',
-      range: [0, 5000000]
-    },
-    {
-      type: 'Tiềm năng',
-      range: [5000000, 10000000]
-    },
-    {
-      type: 'VIP',
-      range: [10000000, 50000000]
-    },
-    {
-      type: 'VIP',
-      range: [50000000, null]
-    },
-  ],
   products: [],
   productCategories: []
 }
@@ -193,6 +175,39 @@ const globalReducer = (state = initialState, action) => {
       }
     }
 
+    case 'CREATE_GUEST': {
+      const { guests } = state
+      return {
+        ...state,
+        guests: [
+          ...guests,
+          action.payload
+        ]
+      }
+    } 
+
+    case 'CREATE_USER': {
+      const { users } = state
+      return {
+        ...state,
+        users: [
+          ...users,
+          action.payload
+        ]
+      }
+    } 
+
+    case 'CREATE_PRODUCT': {
+      const { products } = state
+      return {
+        ...state,
+        products: [
+          ...products,
+          action.payload
+        ]
+      }
+    } 
+
     case 'GET_ALL_PRODUCTS': {
       return {
         ...state,
@@ -203,6 +218,7 @@ const globalReducer = (state = initialState, action) => {
     }
 
     case 'GET_ALL_USERS': {
+      console.log(action)
       return {
         ...state,
         users: [

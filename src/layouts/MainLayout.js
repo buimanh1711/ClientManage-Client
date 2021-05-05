@@ -1,9 +1,18 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import SideBar from "../global/SideBar"
 import MainContent from "./MainContent"
+import { useHistory } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 const MainLayout = ({ children }) => {
+  const history = useHistory()
+  const login = useSelector(state => state.global.login)
+  
   const [mbSide, setMbSide] = useState(true)
+
+  // useEffect(() => {
+  //   if (!login) return history.push('/login')
+  // }, [login])
 
   return (
     <div id='main-layout'>
