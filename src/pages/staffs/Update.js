@@ -109,14 +109,14 @@ const Update = ({ updateForm, setUpdateForm }) => {
               <span onClick={() => { setUpdateForm({ status: false, info: {} }) }} className='close'>
                 <i className="fas fa-times"></i>
               </span>
-              <h4>Thêm nhân viên</h4>
+              <h4>Chỉnh sửa nhân viên</h4>
               <div className='form-container container'>
                 <div title='chọn ảnh đại diện' className='file-upload'>
                   <div className='image-container'>
                     <img src={data.path} />
                     <label htmlFor='product_image'>
                       <i className="fas fa-camera"></i>
-                      <input key={info._id} onChange={handleChange} hidden type='file' ref={imageEl} id='product_image' />
+                      <input defaultValue={null} key={info._id} onChange={handleChange} hidden type='file' ref={imageEl} id='product_image' />
                     </label>
                   </div>
                 </div>

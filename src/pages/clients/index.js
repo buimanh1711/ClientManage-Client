@@ -11,6 +11,7 @@ const Client = () => {
   const [clientInfo, setClientInfo] = useState({status: false, info: {}})
   const [updateForm, setUpdateForm] = useState({status: false, info: {}})
   const [product, setProduct] = useState({status: false, _id: null})
+  
   return (
     <div id='client-tab'>
       <Product product={product} setProduct={setProduct} />

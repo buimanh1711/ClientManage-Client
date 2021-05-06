@@ -157,6 +157,15 @@ const initialState = {
 const globalReducer = (state = initialState, action) => {
   switch (action.type) {
 
+    case 'FILTER_CATEGORY': {
+      console.log('payload: ', action.payload)
+      const { guests } = state
+      return {
+        ...state,
+        guests: action.payload
+      }
+    }
+
     case 'GET_ONE_GUEST': {
       return {
         ...state,

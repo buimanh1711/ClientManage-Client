@@ -81,6 +81,7 @@ export const getAllGuestsAsync = (query) => {
 
     API.getAllGuests(query)
       .then(res => {
+        console.log(res)
         if (res.data && res.data.status) {
           dispatch(getAllGuests(res.data.guests))
         } else {
