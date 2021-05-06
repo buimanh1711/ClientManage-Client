@@ -136,6 +136,39 @@ export const getAllUsersAsync = (query) => {
   }
 }
 
+export const removeGuestAsync = (_id) => {
+  console.log(_id)
+  return dispatch => {
+    API.deleteGuest(_id)
+      .then(res => {
+        if (res.data && res.data.status) {
+          dispatch(removeGuest(_id))
+        } else {
+          triggerNotif({
+            type: 'ERROR',
+            content: res.data.message
+          })
+        }
+      })
+      .catch(err => {
+        dispatch(triggerNotif({
+          type: 'ERROR',
+          content: 'SERVER_ERROR!'
+        }))
+      })
+      .then(() => {
+        dispatch(toggleLoading(false))
+      })
+  }
+}
+
+export const removeGuest = (payload) => {
+  return {
+    type: 'REMOVE_GUEST',
+    payload
+  }
+}
+
 export const getAllUsers = (payload) => {
   return {
     type: 'GET_ALL_USERS',
@@ -204,6 +237,38 @@ export const removeProductAsync = (_id) => {
       .then(() => {
         dispatch(toggleLoading(false))
       })
+  }
+}
+
+export const updateProductAsync = (_id, data) => {
+  return dispatch => {
+    API.updateProduct(_id, data)
+      .then(res => {
+        if (res.data && res.data.status) {
+          dispatch(updateProduct(_id, data))
+        } else {
+          triggerNotif({
+            type: 'ERROR',
+            content: res.data.message
+          })
+        }
+      })
+      .catch(err => {
+        dispatch(triggerNotif({
+          type: 'ERROR',
+          content: 'SERVER_ERROR!'
+        }))
+      })
+      .then(() => {
+        dispatch(toggleLoading(false))
+      })
+  }
+}
+
+export const updateProduct = (payload) => {
+  return {
+    type: 'UPDATE_PRODUCT',
+    payload
   }
 }
 

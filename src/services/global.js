@@ -35,8 +35,8 @@ export const updateGuest = (_id, data) => {
   return request(`/guests/${_id}`, 'PUT', data)
 }
 
-export const deleteGuest = (_id, image) => {
-  return request(`/guests/${_id}`, 'DELETE', image )
+export const deleteGuest = (_id) => {
+  return request(`/guests/${_id}`, 'DELETE')
 }
 
 export const searchGuest = (query) => {

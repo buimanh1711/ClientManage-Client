@@ -1,8 +1,11 @@
 import { useSelector } from "react-redux"
 import Pagination from "../../global/Pagination"
+import Warning from "../../global/Warning"
 
 const StaffList = ({ setUpdateForm }) => {
   const staffs = useSelector(state => state.global.users)
+  const userId = useSelector(state => state.global.user._id)
+  const role = useSelector(state => state.global.user.role)
 
   return (
     <div id='staff-list'>
@@ -13,7 +16,7 @@ const StaffList = ({ setUpdateForm }) => {
           <ul>
             {
               staffs.map((item, key) =>
-                <li key={item._id}>
+                <li style={{ background: userId === item._id && 'rgba(40, 44, 253, 0.37)' }} key={item._id}>
                   <div className='count'>
                     <span>{key + 1}</span>
                   </div>
@@ -36,25 +39,36 @@ const StaffList = ({ setUpdateForm }) => {
                       <strong>Email: </strong>
                       <span>{item.email}</span>
                     </div>
-                    <div className='account'>
-                      <strong>Tài khoản: </strong>
-                      <span>{item.username}</span>
-                      <span> - </span>
-                      <span>{item.password}</span>
-                    </div>
+                    {
+                      role === 'admin' &&
+                      <div style={{ color: 'red' }} className='account'>
+                        <strong>Tài khoản: </strong>
+                        <span>{item.username}</span>
+                        <span> - </span>
+                        <span>{item.password}</span>
+                      </div>
+                    }
                   </div>
                   <div className='tools'>
-                    <button className='edit' onClick={() => setUpdateForm({ status: true, info: item })} >
-                      <i className="fas fa-edit"></i>
-                    </button>
-                    <button className='remove'>
-                      <i className="fas fa-trash-alt"></i>
-                    </button>
+                    {
+                      (role === 'admin' || userId === item._id) &&
+                      <button className='edit' onClick={() => setUpdateForm({ status: true, info: item })} >
+                        <i className="fas fa-edit"></i>
+                      </button>
+                    }
+                    {
+                      role === 'admin' &&
+                      <button className='remove'>
+                        <i className="fas fa-trash-alt"></i>
+                      </button>
+                    }
                   </div>
                 </li>
               )
             }
           </ul>
+          ||
+          <Warning alert='Chưa có nhân viên!' />
         }
       </div>
       <div className='staff-pagination'>

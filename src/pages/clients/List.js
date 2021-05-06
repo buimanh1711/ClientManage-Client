@@ -1,9 +1,16 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Pagination from '../../global/Pagination'
+import Warning from '../../global/Warning'
+import { removeGuestAsync } from '../../redux/actions'
 import getMedal from '../../utils/getMedal'
 const ClientList = ({ setClientInfo, setUpdateForm, setProduct }) => {
   const guests = useSelector(state => state.global.guests)
+  const dispatch = useDispatch()
+
+  const deleteGuest = (_id) => {
+    dispatch(removeGuestAsync(_id))
+  }
 
   return (
     <div id='client-list'>
@@ -32,7 +39,7 @@ const ClientList = ({ setClientInfo, setUpdateForm, setProduct }) => {
                         {item.fullName}
                     </span>
                       <span style={{ fontWeight: 'bold' }}>{getMedal(item.totalMoney)}</span>
-                      <span>{item.address && item.address.name}</span>
+                      <span>{item.address && item.address.name || <strong style={{color: 'red'}}>Chưa cập nhật</strong>}</span>
                     </div>
                     <div className='tools'>
                       <button onClick={() => { setProduct({ user: item, status: true }) }} className='add'>
@@ -41,7 +48,7 @@ const ClientList = ({ setClientInfo, setUpdateForm, setProduct }) => {
                       <button className='edit' onClick={() => setUpdateForm({ status: true, info: item })}>
                         <i className="fas fa-edit"></i>
                       </button>
-                      <button className='remove'>
+                      <button onClick={() => deleteGuest(item._id)} className='remove'>
                         <i className="fas fa-user-times"></i>
                       </button>
                     </div>
@@ -50,6 +57,8 @@ const ClientList = ({ setClientInfo, setUpdateForm, setProduct }) => {
               })
             }
           </ul>
+          ||
+          <Warning alert='Chưa có khách hàng nào!' />
         }
       </div>
       <div className='client-pagination'>

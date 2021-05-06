@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Pagination from '../../global/Pagination'
+import Warning from '../../global/Warning'
 import { removeProductAsync } from '../../redux/actions'
 const ProductList = ({ setClientInfo, setUpdateForm, setProduct }) => {
   const products = useSelector(state => state.global.products)
@@ -41,7 +42,7 @@ const ProductList = ({ setClientInfo, setUpdateForm, setProduct }) => {
                       <span className='name'>
                         {item.name}
                     </span>
-                      <span style={{ fontWeight: 'bold' }}>{item.category && item.category.title || 'Đang cập nhật'}</span>
+                      <span style={{ fontWeight: 'bold' }}>{item.category && item.category.title || <strong style={{color: 'red'}}>Chưa cập nhật</strong>}</span>
                       <span>{item.price}đ</span>
                     </div>
                     <div className='tools'>
@@ -57,6 +58,8 @@ const ProductList = ({ setClientInfo, setUpdateForm, setProduct }) => {
               })
             }
           </ul>
+          ||
+          <Warning alert='Chưa có sản phẩm!' />
         }
       </div>
       <div className='client-pagination'>

@@ -1,9 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { updateGuest, updateUser } from '../../services/global'
+import { toggleLoading } from '../../redux/actions'
 
 const Update = ({ updateForm, setUpdateForm }) => {
   const history = useHistory()
+  const { info } = updateForm
 
   const login = useSelector(state => state.global.login)
   const dispatch = useDispatch()
@@ -12,19 +15,17 @@ const Update = ({ updateForm, setUpdateForm }) => {
   const [data, getData] = useState({ name: '', path: '/images/product_default_img.png' })
 
   const nameEl = useRef(null)
-  const idEl = useRef(null)
+  const imageEl = useRef(null)
   const phoneEl = useRef(null)
   const addEl = useRef(null)
   const usernameEl = useRef(null)
   const passwordEl = useRef(null)
 
   useEffect(() => {
-    // if (!login) {
-    //   setTimeout(() => {
-    //     history.replace('/login')
-    //   }, 1000)
-    // }
-  }, [])
+    getData({
+      path: info.image && info.image.url
+    })
+  }, [info])
 
   const handleChange = (e) => {
     const selectedFile = e.target.files[0]
@@ -44,20 +45,25 @@ const Update = ({ updateForm, setUpdateForm }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const name = nameEl.current.value.trim()
-    const id = idEl.current.value.trim()
+    const fullName = nameEl.current.value.trim()
+    // const id = idEl.current.value.trim()
     const phone = phoneEl.current.value.trim()
     const address = addEl.current.value.trim()
     const username = usernameEl.current.value.trim()
     const password = passwordEl.current.value.trim()
 
     const data = {
-      name, cmnd: id, phone, address, username, password, image: file
+      fullName, phone, address, username, password, image: info.image
+    }
+
+    if (file) {
+      console.log("manh: ", file)
+      data.newImage = file
     }
 
     const formData = new FormData()
-    formData.append('name', name)
-    formData.append('cmnd', id)
+    formData.append('fullName', fullName)
+    // formData.append('cmnd', id)
     formData.append('phone', phone)
     formData.append('address', address)
     formData.append('username', username)
@@ -65,27 +71,32 @@ const Update = ({ updateForm, setUpdateForm }) => {
     formData.append('image', file)
 
     console.log(data)
-    // dispatch(toggleLoading(true))
-    // createProduct(data)
-    //   .then(res => {
-    //     if (res.data && res.data.status) {
-    //       console.log('successfully')
-    //     } else {
-    //       dispatch(triggerNotif({
-    //         type: 'ERROR',
-    //         content: res.data.message
-    //       }))
-    //     }
-    //   })
-    //   .catch(err => {
-    //     dispatch(triggerNotif({
-    //       type: 'ERROR',
-    //       content: 'SERVER_ERROR!'
-    //     }))
-    //   })
-    //   .then(() => {
-    //     dispatch(toggleLoading(false))
-    //   })
+    dispatch(toggleLoading(true))
+    updateUser(info._id, data)
+      .then(res => {
+        if (res.data && res.data.status) {
+          dispatch({
+            type: 'UPDATE_USER',
+            payload: res.data.newStaff
+          })
+        } else {
+          // dispatch(triggerNotif({
+          //   type: 'ERROR',
+          //   content: res.data.message
+          // }))
+        }
+      })
+      .catch(err => {
+        // dispatch(triggerNotif({
+        //   type: 'ERROR',
+        //   content: 'SERVER_ERROR!'
+        // }))
+      })
+      .then(() => {
+        dispatch(toggleLoading(false))
+        if (imageEl.current) imageEl.current.value = ''
+        setUpdateForm({ status: false, info: {} })
+      })
   }
 
   return (
@@ -95,7 +106,7 @@ const Update = ({ updateForm, setUpdateForm }) => {
         <div id='staff-create'>
           <div className='create-container'>
             <form onSubmit={handleSubmit} className='create-form'>
-              <span onClick={() => { setUpdateForm({status: false, info: {}}) }} className='close'>
+              <span onClick={() => { setUpdateForm({ status: false, info: {} }) }} className='close'>
                 <i className="fas fa-times"></i>
               </span>
               <h4>Thêm nhân viên</h4>
@@ -105,33 +116,33 @@ const Update = ({ updateForm, setUpdateForm }) => {
                     <img src={data.path} />
                     <label htmlFor='product_image'>
                       <i className="fas fa-camera"></i>
-                      <input onChange={handleChange} hidden type='file' id='product_image' />
+                      <input key={info._id} onChange={handleChange} hidden type='file' ref={imageEl} id='product_image' />
                     </label>
                   </div>
                 </div>
                 <div className='create-name'>
                   <label htmlFor='create_name'>Họ Tên: </label>
-                  <input required ref={nameEl} id='create_name' />
+                  <input defaultValue={info.fullName} required ref={nameEl} id='create_name' />
                 </div>
-                <div className='create-id'>
+                {/* <div className='create-id'>
                   <label htmlFor='create_id'>CMND: </label>
-                  <input required ref={idEl} id='create_id' />
-                </div>
+                  <input defaultValue={info.cmnd} required ref={idEl} id='create_id' />
+                </div> */}
                 <div className='create-phone'>
                   <label htmlFor='create_phone'>SĐT: </label>
-                  <input required ref={phoneEl} id='create_phone' />
+                  <input defaultValue={info.phone} required ref={phoneEl} id='create_phone' />
                 </div>
                 <div className='create-add'>
                   <label htmlFor='create_add'>Địa chỉ: </label>
-                  <input required ref={addEl} id='create_add' />
+                  <input defaultValue={info.address} required ref={addEl} id='create_add' />
                 </div>
                 <div className='create-username'>
                   <label htmlFor='create_username'>Tài khoản: </label>
-                  <input required ref={usernameEl} id='create_username' />
+                  <input defaultValue={info.username} required ref={usernameEl} id='create_username' />
                 </div>
                 <div className='create-password'>
                   <label htmlFor='create_password'>Mật khẩu: </label>
-                  <input required ref={passwordEl} id='create_password' />
+                  <input defaultValue={info.password} required ref={passwordEl} id='create_password' />
                 </div>
                 <button type='submit'>Submit</button>
               </div>

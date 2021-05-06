@@ -184,7 +184,25 @@ const globalReducer = (state = initialState, action) => {
           action.payload
         ]
       }
-    } 
+    }
+
+    case 'UPDATE_GUEST': {
+      const { guests } = state
+      const { _id } = action.payload
+      return {
+        ...state,
+        guests: [...guests.filter(x => x._id !== _id), action.payload]
+      }
+    }
+
+    case 'REMOVE_GUEST': {
+      const { guests } = state
+
+      return {
+        ...state,
+        guests: [...guests.filter(x => x._id !== action.payload)]
+      }
+    }
 
     case 'CREATE_USER': {
       const { users } = state
@@ -195,10 +213,24 @@ const globalReducer = (state = initialState, action) => {
           action.payload
         ]
       }
-    } 
+    }
+
+    case 'UPDATE_USER': {
+      const { users } = state
+      const { _id } = action.payload
+      return {
+        ...state,
+        users: [
+          ...users.filter(x => x._id !== _id),
+          action.payload
+        ]
+      }
+    }
 
     case 'CREATE_PRODUCT': {
+      console.log('hellllll')
       const { products } = state
+      console.log('payload: ', action.payload)
       return {
         ...state,
         products: [
@@ -206,7 +238,7 @@ const globalReducer = (state = initialState, action) => {
           action.payload
         ]
       }
-    } 
+    }
 
     case 'GET_ALL_PRODUCTS': {
       return {
@@ -222,6 +254,15 @@ const globalReducer = (state = initialState, action) => {
       return {
         ...state,
         products: products.filter(x => x._id !== action.payload)
+      }
+    }
+
+    case 'UPDATE_PRODUCT': {
+      const { products } = state
+      const { _id } = action.payload
+      return {
+        ...state,
+        products: [...products.filter(x => x._id !== _id), action.payload]
       }
     }
 

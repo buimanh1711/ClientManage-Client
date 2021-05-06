@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { toggleLoading, triggerNotif } from '../../redux/actions'
 import getMedal from '../../utils/getMedal'
 import { date } from '../../utils/getDate'
+import Warning from '../../global/Warning'
 
 const ClientInfo = ({ clientInfo, setClientInfo }) => {
   const history = useHistory()
@@ -77,16 +78,24 @@ const ClientInfo = ({ clientInfo, setClientInfo }) => {
                         <span>Ngày mua</span>
                       </li>
                       {
-                        bought.map((item, index) => (
-                          <li key={item.product._id}>
-                            <span className='count'>{index + 1}</span>
-                            <span>{item.product.name}</span>
-                            <span>{item.product.price}đ</span>
-                            <span>{date(item.product.createAt)}</span>
-                          </li>
-                        ))
+                        bought.map((item, index) => {
+                          if (item && item.product) {
+                            return (
+                              <li key={item.product._id}>
+                                <span className='count'>{index + 1}</span>
+                                <span>{item.product.name}</span>
+                                <span>{item.product.price}đ</span>
+                                <span>{date(item.product.createAt)}</span>
+                              </li>
+                            )
+                          } else {
+                            return null
+                          }
+                        })
                       }
                     </ul>
+                    ||
+                    <Warning alert='Chưa có sản phẩm nào!' />
                   }
                 </div>
               </div>

@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { toggleLoading } from '../../redux/actions'
+import { updateProduct } from '../../services/global'
 
 const Update = ({ updateForm, setUpdateForm }) => {
   const history = useHistory()
@@ -23,28 +25,32 @@ const Update = ({ updateForm, setUpdateForm }) => {
     const data = {
       name, category, price
     }
-    console.log(data)
-    // dispatch(toggleLoading(true))
-    // createProduct(data)
-    //   .then(res => {
-    //     if (res.data && res.data.status) {
-    //       console.log('successfully')
-    //     } else {
-    //       dispatch(triggerNotif({
-    //         type: 'ERROR',
-    //         content: res.data.message
-    //       }))
-    //     }
-    //   })
-    //   .catch(err => {
-    //     dispatch(triggerNotif({
-    //       type: 'ERROR',
-    //       content: 'SERVER_ERROR!'
-    //     }))
-    //   })
-    //   .then(() => {
-    //     dispatch(toggleLoading(false))
-    //   })
+
+    dispatch(toggleLoading(true))
+    updateProduct(info._id, data)
+      .then(res => {
+        if (res.data && res.data.status) {
+          dispatch({
+            type: 'UPDATE_PRODUCT',
+            payload: { ...res.data.newProduct, ...data }
+          })
+        } else {
+          // dispatch(triggerNotif({
+          //   type: 'ERROR',
+          //   content: res.data.message
+          // }))
+        }
+      })
+      .catch(err => {
+        // dispatch(triggerNotif({
+        //   type: 'ERROR',
+        //   content: 'SERVER_ERROR!'
+        // }))
+      })
+      .then(() => {
+        dispatch(toggleLoading(false))
+        setUpdateForm({ status: false, updateForm: {} })
+      })
   }
 
   return (
@@ -67,13 +73,13 @@ const Update = ({ updateForm, setUpdateForm }) => {
                 <input required ref={priceEl} id='create_phone' defaultValue={info.price} type='number' min={1000} />
               </div>
               <div className='create-address'>
-                <select key={info._id} ref={categoryEl} required defaultValue={JSON.stringify(info.categorys)} name="categories">
-                  <option value="Thể loại" disabled hidden>Thể loại</option>
+                <select key={info._id} ref={categoryEl} required defaultValue={info.category && JSON.stringify(info.category) || "Thể loại"} name="categories">
+                  <option selected={!(info.category && info.category._id)} value="Thể loại" disabled hidden>Thể loại</option>
                   {
                     categories && categories.length > 0 &&
                     categories.map(item => {
                       return (
-                        <option selected={item._id == (info.category && info.category._id)} key={item._id} value={JSON.stringify(item)}>
+                        <option selected={item._id === (info.category && info.category._id)} key={item._id} value={JSON.stringify(item)}>
                           {item.title}
                         </option>
                       )

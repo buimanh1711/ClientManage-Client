@@ -6,13 +6,13 @@ import { useSelector, useDispatch } from 'react-redux'
 
 const MainLayout = ({ children }) => {
   const history = useHistory()
-  const login = useSelector(state => state.global.login)
+  const accessToken = localStorage.getItem('accessToken')
   
   const [mbSide, setMbSide] = useState(true)
 
-  // useEffect(() => {
-  //   if (!login) return history.push('/login')
-  // }, [login])
+  useEffect(() => {
+    if (!accessToken) return history.push('/login')
+  }, [accessToken])
 
   return (
     <div id='main-layout'>

@@ -10,7 +10,7 @@ const Product = () => {
   return (
     <div id='product-tab'>
       <Create status={createForm} setCreateForm={setCreateForm} />
-      <Update key={updateForm.info._id} updateForm={updateForm} setUpdateForm={setUpdateForm} />
+      <Update updateForm={updateForm} setUpdateForm={setUpdateForm} />
       <div className='product-container'>
         <ProductMenu setCreateForm={setCreateForm} />
         <ProductList setUpdateForm={setUpdateForm} />
