@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux"
 import Pagination from "../../global/Pagination"
 import Warning from "../../global/Warning"
-import { removeUsersAsync } from "../../redux/actions"
+import { getAllUsersAsync, removeUsersAsync } from "../../redux/actions"
 
 const StaffList = ({ setUpdateForm }) => {
   const staffs = useSelector(state => state.global.users)
+  const userPage = useSelector(state => state.global.userPage)
   const userId = useSelector(state => state.global.user._id)
   const role = useSelector(state => state.global.user.role)
   const dispatch = useDispatch()
@@ -12,6 +13,11 @@ const StaffList = ({ setUpdateForm }) => {
   const deleteUser = (_id, image) => {
     dispatch(removeUsersAsync(_id, image))
   }
+
+  const changePage = (page) => {
+    dispatch(getAllUsersAsync({page}))
+  }
+  
   return (
     <div id='staff-list'>
       <div className='staff-list-container'>
@@ -27,7 +33,7 @@ const StaffList = ({ setUpdateForm }) => {
                   </div>
                   <div className='info'>
                     <div className='avt-wrapper'>
-                      <img src={item.image && item.image.url || '/images/staff.png'} />
+                      <img src={item.image && item.image.url || '/images/user_default_img.png'} />
                     </div>
                     <span>{item.fullName}</span>
                   </div>
@@ -77,7 +83,7 @@ const StaffList = ({ setUpdateForm }) => {
         }
       </div>
       <div className='staff-pagination'>
-        <Pagination />
+        <Pagination totalPage={userPage.totalPage} currentPage={userPage.currentPage} changePage={changePage} />
       </div>
     </div>
   )

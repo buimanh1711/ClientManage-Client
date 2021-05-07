@@ -2,13 +2,19 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Pagination from '../../global/Pagination'
 import Warning from '../../global/Warning'
-import { removeProductAsync } from '../../redux/actions'
+import { getAllProductsAsync, removeProductAsync } from '../../redux/actions'
 const ProductList = ({ setClientInfo, setUpdateForm, setProduct }) => {
   const products = useSelector(state => state.global.products)
+  const productPage = useSelector(state => state.global.productPage)
+
   const dispatch = useDispatch()
 
   const deleteProduct = (_id) => {
     dispatch(removeProductAsync(_id))
+  }
+
+  const changePage = (page) => {
+    dispatch(getAllProductsAsync({page}))
   }
 
   return (
@@ -63,7 +69,7 @@ const ProductList = ({ setClientInfo, setUpdateForm, setProduct }) => {
         }
       </div>
       <div className='client-pagination'>
-        <Pagination />
+        <Pagination totalPage={productPage.totalPage} currentPage={productPage.currentPage} changePage={changePage} />
       </div>
     </div>
   )

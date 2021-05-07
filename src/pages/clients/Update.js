@@ -5,6 +5,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { createProduct, updateGuest } from '../../services/global'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleLoading, triggerNotif } from '../../redux/actions'
+import toChar from '../../utils/toChar'
 
 const Update = ({ updateForm, setUpdateForm }) => {
   const history = useHistory()
@@ -34,8 +35,9 @@ const Update = ({ updateForm, setUpdateForm }) => {
     const id = idEl.current.value.trim()
     const phone = phoneEl.current.value.trim()
     const address = JSON.parse(addEl.current.value.trim())
+    const text = toChar(fullName)
     const data = {
-      fullName, cmnd: id, phone, address
+      fullName, cmnd: id, phone, address, text
     }
 
     dispatch(toggleLoading(true))

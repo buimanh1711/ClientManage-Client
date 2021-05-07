@@ -10,6 +10,7 @@ import './static/style/main.scss'
 import './static/style/header.scss'
 import './static/style/client.scss'
 import './static/style/product.scss'
+import './static/style/overall.scss'
 import './static/style/sign.scss'
 import './static/style/staff.scss'
 
@@ -29,6 +30,7 @@ function App() {
   useEffect(() => {
     dispatch(getAllProductsAsync({}))
     dispatch(getAllCategoriesAsync())
+    dispatch(getAllProductsAsync({}))
   }, [dispatch])
 
   useEffect(() => {

@@ -3,6 +3,7 @@ import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateGuest, updateUser } from '../../services/global'
 import { toggleLoading } from '../../redux/actions'
+import toChar from '../../utils/toChar'
 
 const Update = ({ updateForm, setUpdateForm }) => {
   const history = useHistory()
@@ -12,7 +13,7 @@ const Update = ({ updateForm, setUpdateForm }) => {
   const dispatch = useDispatch()
 
   const [file, setFile] = useState(null)
-  const [data, getData] = useState({ name: '', path: '/images/product_default_img.png' })
+  const [data, getData] = useState({ name: '', path: '/images/user_default_img.png' })
 
   const nameEl = useRef(null)
   const imageEl = useRef(null)
@@ -51,13 +52,12 @@ const Update = ({ updateForm, setUpdateForm }) => {
     const address = addEl.current.value.trim()
     const username = usernameEl.current.value.trim()
     const password = passwordEl.current.value.trim()
-
+    const text = toChar(fullName)
     const data = {
-      fullName, phone, address, username, password, image: info.image
+      fullName, text, phone, address, username, password, image: info.image
     }
 
     if (file) {
-      console.log("manh: ", file)
       data.newImage = file
     }
 
@@ -94,7 +94,7 @@ const Update = ({ updateForm, setUpdateForm }) => {
       })
       .then(() => {
         dispatch(toggleLoading(false))
-        if (imageEl.current) imageEl.current.value = ''
+        setFile(null)
         setUpdateForm({ status: false, info: {} })
       })
   }
@@ -113,7 +113,7 @@ const Update = ({ updateForm, setUpdateForm }) => {
               <div className='form-container container'>
                 <div title='chọn ảnh đại diện' className='file-upload'>
                   <div className='image-container'>
-                    <img src={data.path} />
+                    <img src={data.path || '/images/user_default_img.png'} />
                     <label htmlFor='product_image'>
                       <i className="fas fa-camera"></i>
                       <input defaultValue={null} key={info._id} onChange={handleChange} hidden type='file' ref={imageEl} id='product_image' />

@@ -10,6 +10,11 @@ const Product = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch({
+      type: 'SET_TITLE',
+      payload: 'Sản phẩm'
+    })
+    
     dispatch(getAllProductsAsync({}, true))
   }, [])
 

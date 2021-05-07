@@ -48,7 +48,7 @@ export const getAllProductsAsync = (query, loading) => {
     API.getAllProducts(query)
       .then(res => {
         if (res.data && res.data.status) {
-          dispatch(getAllProducts(res.data.products))
+          dispatch(getAllProducts({products: res.data.products, productPage: {totalPage: res.data.totalPage, currentPage: res.data.currentPage}}))
         } else {
           triggerNotif({
             type: 'ERROR',
@@ -83,7 +83,7 @@ export const getAllGuestsAsync = (query, loading) => {
       .then(res => {
         console.log(res)
         if (res.data && res.data.status) {
-          dispatch(getAllGuests(res.data.guests))
+          dispatch(getAllGuests({guests: res.data.guests, guestPage: {totalPage: res.data.totalPage, currentPage: res.data.currentPage}}))
         } else {
           triggerNotif({
             type: 'ERROR',
@@ -117,7 +117,7 @@ export const getAllUsersAsync = (query, loading) => {
     API.getAllUsers(query)
       .then(res => {
         if (res.data && res.data.status) {
-          dispatch(getAllUsers(res.data.staffs))
+          dispatch(getAllUsers({users: res.data.staffs, userPage: {totalPage: res.data.totalPage, currentPage: res.data.currentPage}}))
         } else {
           triggerNotif({
             type: 'ERROR',

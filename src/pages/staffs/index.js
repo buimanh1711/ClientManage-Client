@@ -10,6 +10,11 @@ const Staff = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch({
+      type: 'SET_TITLE',
+      payload: 'Nhân viên'
+    })
+
     dispatch(getAllUsersAsync({}, true))
   })
 

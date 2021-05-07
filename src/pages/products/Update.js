@@ -3,6 +3,7 @@ import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleLoading } from '../../redux/actions'
 import { updateProduct } from '../../services/global'
+import toChar from '../../utils/toChar'
 
 const Update = ({ updateForm, setUpdateForm }) => {
   const history = useHistory()
@@ -22,8 +23,9 @@ const Update = ({ updateForm, setUpdateForm }) => {
     const name = nameEl.current.value.trim()
     const price = priceEl.current.value.trim()
     const category = categoryEl.current.value !== 'Thể loại' && JSON.parse(categoryEl.current.value) || null
+    const text = toChar(name)
     const data = {
-      name, category, price
+      name, category, price, text
     }
 
     dispatch(toggleLoading(true))

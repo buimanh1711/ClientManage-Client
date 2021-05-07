@@ -17,6 +17,11 @@ const Client = () => {
   const [product, setProduct] = useState({status: false, _id: null})
   
   useEffect(() => {
+    dispatch({
+      type: 'SET_TITLE',
+      payload: 'Khách hàng'
+    })
+    
     dispatch(getAllGuestsAsync({}, true))
   }, [])
 

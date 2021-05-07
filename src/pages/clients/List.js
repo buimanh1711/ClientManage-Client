@@ -2,14 +2,20 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Pagination from '../../global/Pagination'
 import Warning from '../../global/Warning'
-import { removeGuestAsync } from '../../redux/actions'
+import { getAllGuestsAsync, removeGuestAsync } from '../../redux/actions'
 import getMedal from '../../utils/getMedal'
 const ClientList = ({ setClientInfo, setUpdateForm, setProduct }) => {
   const guests = useSelector(state => state.global.guests)
+  const guestPage = useSelector(state => state.global.guestPage)
+
   const dispatch = useDispatch()
 
   const deleteGuest = (_id) => {
     dispatch(removeGuestAsync(_id))
+  }
+
+  const changePage = (page) => {
+    dispatch(getAllGuestsAsync({page}))
   }
 
   return (
@@ -62,7 +68,7 @@ const ClientList = ({ setClientInfo, setUpdateForm, setProduct }) => {
         }
       </div>
       <div className='client-pagination'>
-        <Pagination />
+        <Pagination totalPage={guestPage.totalPage} currentPage={guestPage.currentPage} changePage={changePage} />
       </div>
     </div>
   )

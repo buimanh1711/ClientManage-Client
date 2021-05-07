@@ -1,6 +1,7 @@
 const initialState = {
   login: false,
   auth: {},
+  title: '',
   popup: {
     active: false,
     content: ''
@@ -27,16 +28,10 @@ const initialState = {
       icon: <i className="fas fa-shopping-bag"></i>
     },
     {
-      title: 'Phân loại',
-      path: '/categories',
+      title: 'Thông tin cửa hàng',
+      path: '/about',
       icon: <i className="fas fa-filter"></i>
     },
-    {
-      title: 'Cá nhân',
-      path: '/profile/me',
-      icon: <i className="far fa-user"></i>
-    },
-
   ],
   countries: [
     {
@@ -147,22 +142,22 @@ const initialState = {
   },
   loading: false,
   users: [],
+  userPage: {},
   guests: [],
+  guestPage: {},
   guest: {},
   profile: {},
   products: [],
+  productPage: {},
   categories: []
 }
 
 const globalReducer = (state = initialState, action) => {
   switch (action.type) {
-
-    case 'FILTER_CATEGORY': {
-      console.log('payload: ', action.payload)
-      const { guests } = state
+    case 'SET_TITLE': {
       return {
         ...state,
-        guests: action.payload
+        title: action.payload || 'Lỗi Tiêu Đề'
       }
     }
 
@@ -179,8 +174,9 @@ const globalReducer = (state = initialState, action) => {
       return {
         ...state,
         guests: [
-          ...action.payload
-        ]
+          ...action.payload.guests
+        ],
+        guestPage: action.payload.guestPage
       }
     }
 
@@ -264,8 +260,9 @@ const globalReducer = (state = initialState, action) => {
       return {
         ...state,
         products: [
-          ...action.payload
-        ]
+          ...action.payload.products
+        ],
+        productPage: action.payload.productPage
       }
     }
 
@@ -290,8 +287,9 @@ const globalReducer = (state = initialState, action) => {
       return {
         ...state,
         users: [
-          ...action.payload
-        ]
+          ...action.payload.users
+        ],
+        userPage: action.payload.userPage
       }
     }
 
