@@ -1,4 +1,4 @@
-const toSlug = (str) => {
+const toChar = (str) => {
   str = str.replace(/^\s+|\s+$/g, '') //trim
   str = str.toLowerCase()
 
@@ -15,4 +15,4 @@ const toSlug = (str) => {
   return str;
 }
 
-module.exports = toSlug
+module.exports = toChar

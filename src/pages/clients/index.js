@@ -1,17 +1,25 @@
 import ClientList from "./List"
 import ClientMenu from "./Menu"
 import Create from './Create'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import ClientInfo from "./Client"
 import Update from "./Update"
 import Product from "./Product"
+import { useDispatch } from "react-redux"
+import { getAllGuestsAsync } from "../../redux/actions"
 
 const Client = () => {
+  const dispatch = useDispatch()
+
   const [createForm, setCreateForm] = useState(false)
   const [clientInfo, setClientInfo] = useState({status: false, info: {}})
   const [updateForm, setUpdateForm] = useState({status: false, info: {}})
   const [product, setProduct] = useState({status: false, _id: null})
   
+  useEffect(() => {
+    dispatch(getAllGuestsAsync({}, true))
+  }, [])
+
   return (
     <div id='client-tab'>
       <Product product={product} setProduct={setProduct} />

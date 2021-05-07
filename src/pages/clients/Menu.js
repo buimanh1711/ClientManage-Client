@@ -1,14 +1,32 @@
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { getAllGuestsAsync } from "../../redux/actions"
 
 const ClientMenu = ({ setCreateForm }) => {
   const dispatch = useDispatch()
 
+  const [query, setQuery] = useState({})
+
   const filerByCategory = (e) => {
     const value = e.target.value && JSON.parse(e.target.value)
     const { start, end } = value
-    dispatch(getAllGuestsAsync({start, end}))
-  
+    setQuery({...query, start, end})
+
+    dispatch(getAllGuestsAsync({...query, start, end}))
+  }
+
+  const filterByCmnd = (e) => {
+    const value = e.target.value
+    setQuery({...query, cmnd: value})
+
+    dispatch(getAllGuestsAsync({...query, cmnd: value}))
+  }
+
+  const filterByName = (e) => {
+    const value = e.target.value
+    setQuery({...query, search: value})
+
+    dispatch(getAllGuestsAsync({...query, search: value}))
   }
 
   return (
@@ -27,13 +45,13 @@ const ClientMenu = ({ setCreateForm }) => {
             <label htmlFor='name'>
               Tên
             </label>
-            <input id='name' placeholder='Nhập tên khách hàng...' />
+            <input onChange={filterByName} id='name' placeholder='Nhập tên khách hàng...' />
           </li>
           <li className='id'>
             <label htmlFor='id'>
               CMND
             </label>
-            <input id='id' placeholder='Nhập số cmnd...' />
+            <input onChange={filterByCmnd} id='id' placeholder='Nhập số cmnd...' />
           </li>
           <li className='category'>
             <select onChange={filerByCategory}>

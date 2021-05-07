@@ -41,9 +41,9 @@ export const triggerNotif = (payload) => {
   }
 }
 
-export const getAllProductsAsync = (query) => {
+export const getAllProductsAsync = (query, loading) => {
   return dispatch => {
-    dispatch(toggleLoading(true))
+    if (loading) dispatch(toggleLoading(true))
 
     API.getAllProducts(query)
       .then(res => {
@@ -75,9 +75,9 @@ export const getAllProducts = (payload) => {
   }
 }
 
-export const getAllGuestsAsync = (query) => {
+export const getAllGuestsAsync = (query, loading) => {
   return dispatch => {
-    dispatch(toggleLoading(true))
+    if (loading) dispatch(toggleLoading(true))
 
     API.getAllGuests(query)
       .then(res => {
@@ -110,9 +110,9 @@ export const getAllGuests = (payload) => {
   }
 }
 
-export const getAllUsersAsync = (query) => {
+export const getAllUsersAsync = (query, loading) => {
   return dispatch => {
-    dispatch(toggleLoading(true))
+    if (loading) dispatch(toggleLoading(true))
 
     API.getAllUsers(query)
       .then(res => {
@@ -134,6 +134,40 @@ export const getAllUsersAsync = (query) => {
       .then(() => {
         dispatch(toggleLoading(false))
       })
+  }
+}
+
+export const removeUsersAsync = (_id, image) => {
+  return dispatch => {
+    dispatch(toggleLoading(true))
+
+    API.deleteUser(_id, image)
+      .then(res => {
+        if (res.data && res.data.status) {
+          dispatch(removeUser(_id))
+        } else {
+          triggerNotif({
+            type: 'ERROR',
+            content: res.data.message
+          })
+        }
+      })
+      .catch(err => {
+        dispatch(triggerNotif({
+          type: 'ERROR',
+          content: 'SERVER_ERROR!'
+        }))
+      })
+      .then(() => {
+        dispatch(toggleLoading(false))
+      })
+  }
+}
+
+export const removeUser = (payload) => {
+  return {
+    type: 'REMOVE_USER',
+    payload
   }
 }
 

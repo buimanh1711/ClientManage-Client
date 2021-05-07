@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleLoading } from '../../redux/actions'
 import { createProduct } from '../../services/global'
+import toChar from '../../utils/toChar'
 
 const Create = ({ status, setCreateForm }) => {
   const history = useHistory()
@@ -31,8 +32,10 @@ const Create = ({ status, setCreateForm }) => {
     const name = nameEl.current.value.trim()
     const price = priceEl.current.value.trim()
     const category = categoryEl.current.value !== 'Thể loại' && JSON.parse(categoryEl.current.value)._id || null
+    const text = toChar(name)
+
     const data = {
-      name, category, price
+      name, category, price, text
     }
 
     console.log(category)

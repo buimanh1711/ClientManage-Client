@@ -14,10 +14,12 @@ export const register = (userData) => {
 }
 //GUESTS
 export const getAllGuests = (query) => {
-  const { address, start, end, page } = query
+  const { cmnd, start, end, page, search } = query
+  console.log(query)
   var url = `/guests?page=${page || 1}&`
-  if (address) url = url + `address=${address}&`
+  if (cmnd) url = url + `cmnd=${cmnd}&`
   if (start) url = url + `start=${start}&`
+  if (search) url = url + `search=${search}&`
   if (end) url = url + `end=${end}&`
 
   return request(url, "GET")
@@ -65,22 +67,25 @@ export const getUser = (_id) => {
 }
 
 export const getAllUsers = (query) => {
-  const { page } = query
-  return request(`/accounts?page=${page || 1}`, 'GET')
+  const { page, search } = query
+  let url = `/accounts?page=${page || 1}`
+  if (search && search !== '') url = url + `&search=${search}`
+  console.log(url)
+  return request(url, 'GET')
 }
 
-export const deleteUser = (_id) => {
-  return request(`/accounts/${_id}`, 'DELETE')
+export const deleteUser = (_id, image) => {
+  return request(`/accounts/${_id}`, 'DELETE', image)
 }
 
 //PRODUCTS
 
 export const getAllProducts = (query) => {
-  const { page, category } = query || {}
+  const { page, search } = query || {}
   let url = `/products?page=${page || 1}&`
 
-  if (category) {
-    url = url + `category=${category}`
+  if (search) {
+    url = url + `search=${search}`
   }
 
   return request(url, 'GET')

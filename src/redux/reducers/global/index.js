@@ -236,6 +236,17 @@ const globalReducer = (state = initialState, action) => {
       }
     }
 
+    case 'REMOVE_USER': {
+      const { users } = state
+
+      return {
+        ...state,
+        users: [
+          ...users.filter(x => x._id !== action.payload)
+        ]
+      }
+    }
+
     case 'CREATE_PRODUCT': {
       console.log('hellllll')
       const { products } = state

@@ -1,7 +1,14 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { getAllUsersAsync } from "../../redux/actions"
 
 const StaffMenu = ({ setCreateForm }) => {
+  const dispatch = useDispatch()
   const role = useSelector(state => state.global.user.role)
+
+  const searchStaff = (e) => {
+    const value = e.target.value
+    dispatch(getAllUsersAsync({search: value}))
+  }
 
   return (
     <div id='staff-menu'>
@@ -14,12 +21,12 @@ const StaffMenu = ({ setCreateForm }) => {
                 <i className="fas fa-plus"></i>
                 <span>
                   Thêm nhân viên
-              </span>
+                </span>
               </button>
             </li>
           }
           <li className='name'>
-            <input id='name' placeholder='Tìm kiếm nhân viên...' />
+            <input onChange={searchStaff} id='name' placeholder='Tìm kiếm nhân viên...' />
             <button className='staff-search'>
               <i className="fas fa-search"></i>
             </button>

@@ -1,4 +1,14 @@
+import { useDispatch } from "react-redux"
+import { getAllProductsAsync } from "../../redux/actions"
+
 const ProductMenu = ({ setCreateForm }) => {
+  const dispatch = useDispatch()
+
+  const searchProduct = (e) => {
+    const value = e.target.value
+    dispatch(getAllProductsAsync({search: value}))
+  }
+
   return (
     <div id='product-menu'>
       <div className='product-menu-container'>
@@ -12,7 +22,7 @@ const ProductMenu = ({ setCreateForm }) => {
             </button>
           </li>
           <li className='name'>
-            <input id='name' placeholder='Tìm kiếm sản phẩm...' />
+            <input onChange={searchProduct} id='name' placeholder='Tìm kiếm sản phẩm...' />
             <button className='staff-search'>
               <i className="fas fa-search"></i>
             </button>

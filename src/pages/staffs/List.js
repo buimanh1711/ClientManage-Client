@@ -1,12 +1,17 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Pagination from "../../global/Pagination"
 import Warning from "../../global/Warning"
+import { removeUsersAsync } from "../../redux/actions"
 
 const StaffList = ({ setUpdateForm }) => {
   const staffs = useSelector(state => state.global.users)
   const userId = useSelector(state => state.global.user._id)
   const role = useSelector(state => state.global.user.role)
+  const dispatch = useDispatch()
 
+  const deleteUser = (_id, image) => {
+    dispatch(removeUsersAsync(_id, image))
+  }
   return (
     <div id='staff-list'>
       <div className='staff-list-container'>
@@ -58,7 +63,7 @@ const StaffList = ({ setUpdateForm }) => {
                     }
                     {
                       role === 'admin' &&
-                      <button className='remove'>
+                      <button className='remove' onClick={() => deleteUser(item._id, item.image)}>
                         <i className="fas fa-trash-alt"></i>
                       </button>
                     }

@@ -3,6 +3,7 @@ import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleLoading } from '../../redux/actions'
 import { createGuest } from '../../services/global'
+import toChar from '../../utils/toChar'
 
 const Create = ({ status, setCreateForm }) => {
   const history = useHistory()
@@ -33,8 +34,10 @@ const Create = ({ status, setCreateForm }) => {
     const id = idEl.current.value.trim()
     const phone = phoneEl.current.value.trim()
     const address = addEl.current.value !== 'Quận/Huyện' && JSON.parse(addEl.current.value) || null
+    const text = toChar(name)
+
     const data = {
-      fullName: name, cmnd: id, phone, address
+      fullName: name, cmnd: id, phone, address, text
     }
     dispatch(toggleLoading(true))
     createGuest(data)

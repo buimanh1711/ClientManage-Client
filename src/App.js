@@ -32,7 +32,7 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
-    dispatch(getAllGuestsAsync({}))
+    dispatch(getAllGuestsAsync({}), true)
   }, [dispatch])
 
   useEffect(() => {

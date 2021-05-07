@@ -1,10 +1,17 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { getAllUsersAsync } from "../../redux/actions"
 import Create from "./Create"
 import StaffList from "./List"
 import StaffMenu from "./Menu"
 import Update from "./Update"
 
 const Staff = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getAllUsersAsync({}, true))
+  })
 
   const [createForm, setCreateForm] = useState(false)
   const [updateForm, setUpdateForm] = useState({status: false, info: {}})

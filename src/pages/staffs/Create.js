@@ -3,6 +3,7 @@ import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { toggleLoading } from '../../redux/actions'
 import { createUser } from '../../services/global'
+import toChar from '../../utils/toChar'
 
 const Create = ({ createForm, setCreateForm }) => {
   const history = useHistory()
@@ -54,9 +55,10 @@ const Create = ({ createForm, setCreateForm }) => {
     const address = addEl.current.value.trim()
     const username = usernameEl.current.value.trim()
     const password = passwordEl.current.value.trim()
+    const text = toChar(fullName)
 
     const data = {
-      fullName, email, cmnd: id, phone, address, username, password, image: file
+      fullName, email, cmnd: id, phone, address, username, password, image: file, text
     }
 
     const formData = new FormData()
