@@ -6,9 +6,6 @@ import { createUser } from '../../services/global'
 import toChar from '../../utils/toChar'
 
 const Create = ({ createForm, setCreateForm }) => {
-  const history = useHistory()
-
-  const login = useSelector(state => state.global.login)
   const dispatch = useDispatch()
 
   const [file, setFile] = useState(null)

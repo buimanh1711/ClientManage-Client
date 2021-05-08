@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Pagination from '../../global/Pagination'
 import Warning from '../../global/Warning'
 import { getAllProductsAsync, removeProductAsync } from '../../redux/actions'
+import formatNumber from '../../utils/formatNum'
 const ProductList = ({ setClientInfo, setUpdateForm, setProduct }) => {
   const products = useSelector(state => state.global.products)
   const productPage = useSelector(state => state.global.productPage)
@@ -49,7 +50,7 @@ const ProductList = ({ setClientInfo, setUpdateForm, setProduct }) => {
                         {item.name}
                     </span>
                       <span style={{ fontWeight: 'bold' }}>{item.category && item.category.title || <strong style={{color: 'red'}}>Chưa cập nhật</strong>}</span>
-                      <span>{item.price}đ</span>
+                      <span>{formatNumber(item.price)}đ</span>
                     </div>
                     <div className='tools'>
                       <button className='edit' onClick={() => setUpdateForm({ status: true, info: item })}>

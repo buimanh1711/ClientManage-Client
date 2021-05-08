@@ -38,14 +38,12 @@ const Create = ({ status, setCreateForm }) => {
       name, category, price, text
     }
 
-    console.log(category)
     const categoryObj = category && JSON.parse(categoryEl.current.value) || null
     
     dispatch(toggleLoading(true))
     createProduct(data)
       .then(res => {
         if (res.data && res.data.status) {
-          console.log('dispatching')
           dispatch({
             type: 'CREATE_PRODUCT',
             payload: {

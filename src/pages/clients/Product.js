@@ -5,6 +5,7 @@ import { date } from '../../utils/getDate'
 import { addProduct } from '../../services/global'
 import { getAllGuestsAsync, toggleLoading } from '../../redux/actions'
 import Warning from '../../global/Warning'
+import formatNumber from '../../utils/formatNum'
 
 const Product = ({ product, setProduct }) => {
   const history = useHistory()
@@ -28,7 +29,6 @@ const Product = ({ product, setProduct }) => {
     dispatch(toggleLoading(true))
     addProduct(user._id, totalMoney, data._id)
       .then(res => {
-        console.log(res)
         if (res.data && res.data.status) {
           dispatch(getAllGuestsAsync({}))
         }
@@ -75,7 +75,7 @@ const Product = ({ product, setProduct }) => {
                               <i className="fas fa-plus"></i>
                             </span>
                             <span>{item.name}</span>
-                            <span>{item.price}đ</span>
+                            <span>{formatNumber(item.price)}đ</span>
                             <span>{item.category && item.category.title}</span>
                           </li>
                         ))

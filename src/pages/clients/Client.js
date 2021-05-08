@@ -8,6 +8,7 @@ import { toggleLoading, triggerNotif } from '../../redux/actions'
 import getMedal from '../../utils/getMedal'
 import { date } from '../../utils/getDate'
 import Warning from '../../global/Warning'
+import formatNumber from '../../utils/formatNum'
 
 const ClientInfo = ({ clientInfo, setClientInfo }) => {
   const history = useHistory()
@@ -60,7 +61,7 @@ const ClientInfo = ({ clientInfo, setClientInfo }) => {
                     <strong>SĐT:</strong><span>{info.phone}</span>
                   </div>
                   <div>
-                    <strong>Tổng chi tiêu:</strong><span>{info.totalMoney}đ</span>
+                    <strong>Tổng chi tiêu:</strong><span>{formatNumber(info.totalMoney)}đ</span>
                   </div>
                   <div>
                     <strong></strong>
@@ -84,7 +85,7 @@ const ClientInfo = ({ clientInfo, setClientInfo }) => {
                               <li key={item.product._id}>
                                 <span className='count'>{index + 1}</span>
                                 <span>{item.product.name}</span>
-                                <span>{item.product.price}đ</span>
+                                <span>{formatNumber(item.product.price)}đ</span>
                                 <span>{date(item.product.createAt)}</span>
                               </li>
                             )

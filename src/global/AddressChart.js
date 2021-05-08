@@ -2,17 +2,31 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllProductsAsync } from '../redux/actions'
+import { getAllGuestsAsync, getUserData } from '../redux/actions'
 
-const HighChart = () => {
-  const products = useSelector(state => state.global.products)
-  const quantities = products.map(item => item.sold)
-  const categories = products.map(item => item.name)
+const AddressChart = () => {
+  const countries = useSelector(state => state.global.countries)
+  const guests = useSelector(state => state.global.guests)
+  const newContries = countries.map(add => {
+    let count = 0
+    guests.forEach(guest => {
+      if (guest.address && guest.address.id === add.id)
+      count++
+    })
+
+    return {
+      ...add,
+      quantity: count
+    }
+  })
+
+  const quantities = newContries.map(item => item.quantity)
+  const categories = newContries.map(item => item.name)
   const dispatch = useDispatch()
 
   const [options, setOptions] = useState({
     title: {
-      text: 'Đã bán'
+      text: 'Quận/Huyện'
     },
     xAxis: {
       categories: [],
@@ -23,7 +37,7 @@ const HighChart = () => {
   })
 
   useEffect(() => {
-    dispatch(getAllProductsAsync({}))
+    dispatch(getAllGuestsAsync({}))
   }, [])
 
   useEffect(() => {
@@ -37,7 +51,7 @@ const HighChart = () => {
           data: quantities
         }]
       })
-  }, [products])
+  }, [guests])
 
   return (
     <HighchartsReact
@@ -47,4 +61,4 @@ const HighChart = () => {
   )
 }
 
-export default HighChart
+export default AddressChart
