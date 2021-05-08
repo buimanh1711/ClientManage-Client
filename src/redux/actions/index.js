@@ -81,7 +81,6 @@ export const getAllGuestsAsync = (query, loading) => {
 
     API.getAllGuests(query)
       .then(res => {
-        console.log(res)
         if (res.data && res.data.status) {
           dispatch(getAllGuests({guests: res.data.guests, guestPage: {totalPage: res.data.totalPage, currentPage: res.data.currentPage}}))
         } else {
@@ -160,6 +159,7 @@ export const removeUsersAsync = (_id, image) => {
       })
       .then(() => {
         dispatch(toggleLoading(false))
+        dispatch(getAllUsersAsync({}))
       })
   }
 }
@@ -172,7 +172,6 @@ export const removeUser = (payload) => {
 }
 
 export const removeGuestAsync = (_id) => {
-  console.log(_id)
   return dispatch => {
     API.deleteGuest(_id)
       .then(res => {
@@ -193,6 +192,7 @@ export const removeGuestAsync = (_id) => {
       })
       .then(() => {
         dispatch(toggleLoading(false))
+        dispatch(getAllGuestsAsync({}))
       })
   }
 }
@@ -271,6 +271,7 @@ export const removeProductAsync = (_id) => {
       })
       .then(() => {
         dispatch(toggleLoading(false))
+        dispatch(getAllProductsAsync({}))
       })
   }
 }

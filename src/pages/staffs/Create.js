@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { toggleLoading } from '../../redux/actions'
+import { getAllUsersAsync, toggleLoading } from '../../redux/actions'
 import { createUser } from '../../services/global'
 import toChar from '../../utils/toChar'
 
@@ -46,7 +46,7 @@ const Create = ({ createForm, setCreateForm }) => {
     e.preventDefault()
 
     const fullName = nameEl.current.value.trim()
-    const id = idEl.current.value.trim()
+    // const id = idEl.current.value.trim()
     const phone = phoneEl.current.value.trim()
     const email = mailEl.current.value.trim()
     const address = addEl.current.value.trim()
@@ -55,12 +55,12 @@ const Create = ({ createForm, setCreateForm }) => {
     const text = toChar(fullName)
 
     const data = {
-      fullName, email, cmnd: id, phone, address, username, password, image: file, text
+      fullName, email, phone, address, username, password, image: file, text
     }
 
     const formData = new FormData()
     formData.append('fullName', fullName)
-    formData.append('cmnd', id)
+    // formData.append('cmnd', id)
     formData.append('phone', phone)
     formData.append('email', email)
     formData.append('address', address)
@@ -68,21 +68,23 @@ const Create = ({ createForm, setCreateForm }) => {
     formData.append('password', password)
     formData.append('image', file)
 
-    console.log(data)
     dispatch(toggleLoading(true))
     createUser(data)
       .then(res => {
+        setCreateForm(false)
+
         if (res.data && res.data.status) {
           dispatch({
             type: 'CREATE_USER',
             payload: res.data.staff
           })
         } else {
+          alert(res.data.message)
           // dispatch(triggerNotif({
           //   type: 'ERROR',
           //   content: res.data.message
           // }))
-        } 
+        }
       })
       .catch(err => {
         // dispatch(triggerNotif({
@@ -92,7 +94,7 @@ const Create = ({ createForm, setCreateForm }) => {
       })
       .then(() => {
         dispatch(toggleLoading(false))
-        setCreateForm(false)
+        dispatch(getAllUsersAsync({}))
       })
   }
 
@@ -121,10 +123,10 @@ const Create = ({ createForm, setCreateForm }) => {
                   <label htmlFor='create_name'>Họ Tên: </label>
                   <input required ref={nameEl} id='create_name' />
                 </div>
-                <div className='create-id'>
+                {/* <div className='create-id'>
                   <label htmlFor='create_id'>CMND: </label>
                   <input required ref={idEl} id='create_id' />
-                </div>
+                </div> */}
                 <div className='create-phone'>
                   <label htmlFor='create_phone'>SĐT: </label>
                   <input required ref={phoneEl} id='create_phone' />

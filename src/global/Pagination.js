@@ -1,7 +1,9 @@
+import { useDispatch } from "react-redux"
+
 const Pagination = ({ totalPage, currentPage, changePage }) => {
 
   const pageArr = Array.from(new Array(totalPage))
-
+  
   return (
     <nav aria-label="Page navigation example">
       {

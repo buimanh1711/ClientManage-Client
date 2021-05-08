@@ -12,6 +12,7 @@ import './static/style/client.scss'
 import './static/style/product.scss'
 import './static/style/overall.scss'
 import './static/style/sign.scss'
+import './static/style/about.scss'
 import './static/style/staff.scss'
 
 import './static/style/responsive.scss'

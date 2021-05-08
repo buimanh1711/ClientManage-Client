@@ -3,9 +3,10 @@ import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { date } from '../../utils/getDate'
 import { addProduct } from '../../services/global'
-import { getAllGuestsAsync, toggleLoading } from '../../redux/actions'
+import { getAllGuestsAsync, getAllProductsAsync, toggleLoading } from '../../redux/actions'
 import Warning from '../../global/Warning'
 import formatNumber from '../../utils/formatNum'
+import toChar from '../../utils/toChar'
 
 const Product = ({ product, setProduct }) => {
   const history = useHistory()
@@ -30,6 +31,7 @@ const Product = ({ product, setProduct }) => {
     addProduct(user._id, totalMoney, data._id)
       .then(res => {
         if (res.data && res.data.status) {
+          alert('Thêm sản phẩm thành công!')
           dispatch(getAllGuestsAsync({}))
         }
       })
@@ -40,6 +42,12 @@ const Product = ({ product, setProduct }) => {
         dispatch(toggleLoading(false))
         setProduct({ status: false, info: {} })
       })
+  }
+
+  const search = (e) => {
+    let value = e.target.value.trim()
+
+    dispatch(getAllProductsAsync({search: toChar(value)}))
   }
 
   return (
@@ -54,7 +62,7 @@ const Product = ({ product, setProduct }) => {
               </button>
               <h4>Tất cả sản phẩm</h4>
               <form style={{ marginBottom: 12 }}>
-                <input placeholder="Nhập tên sản phẩm..." />
+                <input onChange={search} placeholder="Nhập tên sản phẩm..." />
                 <button><i className="fas fa-search"></i></button>
               </form>
               {

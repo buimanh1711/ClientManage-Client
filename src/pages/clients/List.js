@@ -15,7 +15,7 @@ const ClientList = ({ setClientInfo, setUpdateForm, setProduct }) => {
   }
 
   const changePage = (page) => {
-    dispatch(getAllGuestsAsync({page}))
+    dispatch(getAllGuestsAsync({ page }))
   }
 
   return (
@@ -43,9 +43,9 @@ const ClientList = ({ setClientInfo, setUpdateForm, setProduct }) => {
                     <div className='info'>
                       <span className='name' onClick={() => setClientInfo({ status: true, info: item })}>
                         {item.fullName}
-                    </span>
+                      </span>
                       <span style={{ fontWeight: 'bold' }}>{getMedal(item.totalMoney)}</span>
-                      <span>{item.address && item.address.name || <strong style={{color: 'red'}}>Chưa cập nhật</strong>}</span>
+                      <span>{item.address && item.address.name || <strong style={{ color: 'red' }}>Chưa cập nhật</strong>}</span>
                     </div>
                     <div className='tools'>
                       <button onClick={() => { setProduct({ user: item, status: true }) }} className='add'>
@@ -67,9 +67,12 @@ const ClientList = ({ setClientInfo, setUpdateForm, setProduct }) => {
           <Warning alert='Chưa có khách hàng nào!' />
         }
       </div>
-      <div className='client-pagination'>
-        <Pagination totalPage={guestPage.totalPage} currentPage={guestPage.currentPage} changePage={changePage} />
-      </div>
+      {
+        guestPage.totalPage > 1 &&
+        <div className='client-pagination'>
+          <Pagination totalPage={guestPage.totalPage} currentPage={guestPage.currentPage} changePage={changePage} />
+        </div>
+      }
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { getAllUsersAsync } from "../../redux/actions"
+import toChar from "../../utils/toChar"
 
 const StaffMenu = ({ setCreateForm }) => {
   const dispatch = useDispatch()
@@ -7,7 +8,7 @@ const StaffMenu = ({ setCreateForm }) => {
 
   const searchStaff = (e) => {
     const value = e.target.value
-    dispatch(getAllUsersAsync({search: value}))
+    dispatch(getAllUsersAsync({ search: toChar(value) }))
   }
 
   return (

@@ -1,12 +1,13 @@
 import { useDispatch } from "react-redux"
 import { getAllProductsAsync } from "../../redux/actions"
+import toChar from "../../utils/toChar"
 
 const ProductMenu = ({ setCreateForm }) => {
   const dispatch = useDispatch()
 
   const searchProduct = (e) => {
     const value = e.target.value
-    dispatch(getAllProductsAsync({search: value}))
+    dispatch(getAllProductsAsync({ search: toChar(value) }))
   }
 
   return (

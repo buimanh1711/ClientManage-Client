@@ -11,13 +11,17 @@ import Warning from '../../global/Warning'
 import formatNumber from '../../utils/formatNum'
 
 const ClientInfo = ({ clientInfo, setClientInfo }) => {
-  const history = useHistory()
-
-  const login = useSelector(state => state.global.login)
-  const dispatch = useDispatch()
 
   const { info } = clientInfo
   const { bought } = info
+  const boughtProduct = bought && bought.reduce((newArr = [], item) => {
+    if (item && item.product) return [
+      ...newArr,
+      item
+    ]
+  }, [])
+
+  console.log(bought, boughtProduct)
   useEffect(() => {
     // if (!login) {
     //   setTimeout(() => {
@@ -44,9 +48,6 @@ const ClientInfo = ({ clientInfo, setClientInfo }) => {
               <div className='form-container'>
                 <div className='info'>
                   <div>
-                    <strong>ID:</strong><span>{info._id}</span>
-                  </div>
-                  <div>
                     <strong>Họ tên:</strong><span>{info.fullName}</span></div>
                   <div>
                     <strong>Loại KH:</strong><span>{getMedal(info.totalMoney)}</span>
@@ -70,7 +71,7 @@ const ClientInfo = ({ clientInfo, setClientInfo }) => {
                 <div className='products'>
                   <p><strong>Sản phẩm đã mua</strong></p>
                   {
-                    bought && bought.length > 0 &&
+                    boughtProduct && boughtProduct.length > 0 &&
                     <ul className='scroll'>
                       <li className='title-row'>
                         <span className='count'>STT</span>
@@ -79,7 +80,7 @@ const ClientInfo = ({ clientInfo, setClientInfo }) => {
                         <span>Ngày mua</span>
                       </li>
                       {
-                        bought.map((item, index) => {
+                        boughtProduct.map((item, index) => {
                           if (item && item.product) {
                             return (
                               <li key={item.product._id}>

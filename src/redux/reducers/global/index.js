@@ -28,9 +28,9 @@ const initialState = {
       icon: <i className="fas fa-shopping-bag"></i>
     },
     {
-      title: 'Thông tin cửa hàng',
+      title: 'Thông tin',
       path: '/about',
-      icon: <i className="fas fa-filter"></i>
+      icon: <i className="fas fa-info"></i>
     },
   ],
   countries: [
@@ -244,9 +244,7 @@ const globalReducer = (state = initialState, action) => {
     }
 
     case 'CREATE_PRODUCT': {
-      console.log('hellllll')
       const { products } = state
-      console.log('payload: ', action.payload)
       return {
         ...state,
         products: [

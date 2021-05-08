@@ -10,6 +10,7 @@ const Update = ({ updateForm, setUpdateForm }) => {
   const { info } = updateForm
 
   const login = useSelector(state => state.global.login)
+  const users = useSelector(state => state.global.users)
   const dispatch = useDispatch()
 
   const [file, setFile] = useState(null)
@@ -53,6 +54,15 @@ const Update = ({ updateForm, setUpdateForm }) => {
     const username = usernameEl.current.value.trim()
     const password = passwordEl.current.value.trim()
     const text = toChar(fullName)
+
+    let checkUsername = false
+    users.forEach(item => {
+      if (item.username == username && item.username !== info.username ) {
+        checkUsername = true
+      }
+    })
+
+    if (checkUsername) return alert('Username đã tồn tại!')
     const data = {
       fullName, text, phone, address, username, password, image: info.image
     }
@@ -70,7 +80,6 @@ const Update = ({ updateForm, setUpdateForm }) => {
     formData.append('password', password)
     formData.append('image', file)
 
-    console.log(data)
     dispatch(toggleLoading(true))
     updateUser(info._id, data)
       .then(res => {

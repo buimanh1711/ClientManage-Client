@@ -1,6 +1,6 @@
 import { Route, Switch } from 'react-router-dom'
 import Header from '../global/Header'
-import Category from '../pages/categories'
+import About from '../pages/about'
 import Client from '../pages/clients'
 import Overall from '../pages/overall'
 import Product from '../pages/products'
@@ -20,8 +20,8 @@ const MainContent = () => {
           <Route path='/products'>
             <Product />
           </Route>
-          <Route path='/categories'>
-            <Category />
+          <Route path='/about'>
+            <About />
           </Route>
           <Route path='/'>
             <Overall />

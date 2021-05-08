@@ -4,12 +4,12 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { createProduct, updateGuest } from '../../services/global'
 import { useSelector, useDispatch } from 'react-redux'
-import { toggleLoading, triggerNotif } from '../../redux/actions'
+import { getAllGuestsAsync, toggleLoading, triggerNotif } from '../../redux/actions'
 import toChar from '../../utils/toChar'
 
 const Update = ({ updateForm, setUpdateForm }) => {
   const history = useHistory()
-  const login = useSelector(state => state.global.login)
+  const guests = useSelector(state => state.global.guests)
   const dispatch = useDispatch()
   const countries = useSelector(state => state.global.countries)
   const { info } = updateForm
@@ -36,9 +36,19 @@ const Update = ({ updateForm, setUpdateForm }) => {
     const phone = phoneEl.current.value.trim()
     const address = JSON.parse(addEl.current.value.trim())
     const text = toChar(fullName)
+    let checkId = false
+    guests.forEach(item => {
+      if (item.cmnd == id && item._id !== info._id ) {
+        checkId = true
+      }
+    })
+
+    if (checkId) return alert('CMND đã tồn tại')
+    
     const data = {
       fullName, cmnd: id, phone, address, text
     }
+
 
     dispatch(toggleLoading(true))
     updateGuest(info._id ,data)
@@ -63,6 +73,7 @@ const Update = ({ updateForm, setUpdateForm }) => {
       })
       .then(() => {
         dispatch(toggleLoading(false))
+        dispatch(getAllGuestsAsync({}))
         setUpdateForm({status: false, info: {}})
       })
   }

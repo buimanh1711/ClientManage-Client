@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { getAllGuestsAsync } from "../../redux/actions"
+import toChar from "../../utils/toChar"
 
 const ClientMenu = ({ setCreateForm }) => {
   const dispatch = useDispatch()
@@ -24,9 +25,9 @@ const ClientMenu = ({ setCreateForm }) => {
 
   const filterByName = (e) => {
     const value = e.target.value
-    setQuery({...query, search: value})
+    setQuery({...query, search: toChar(value)})
 
-    dispatch(getAllGuestsAsync({...query, search: value}))
+    dispatch(getAllGuestsAsync({...query, search: toChar(value)}))
   }
 
   return (

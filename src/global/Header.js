@@ -16,7 +16,7 @@ const Header = () => {
             <img src={image && image.url || '/images/user_default_img.png'}/>
           </div>
           <span>{`${fullName} (${role})`}</span>
-          <button>
+          <button style={{zIndex: 10}}>
             <Link to='/login'>
               Đăng xuất
             </Link>

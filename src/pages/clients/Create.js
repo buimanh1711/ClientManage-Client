@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { toggleLoading } from '../../redux/actions'
+import { getAllGuestsAsync, toggleLoading } from '../../redux/actions'
 import { createGuest } from '../../services/global'
 import toChar from '../../utils/toChar'
 
@@ -12,7 +12,7 @@ const Create = ({ status, setCreateForm }) => {
   const dispatch = useDispatch()
 
   const countries = useSelector(state => state.global.countries)
-  
+
   const nameEl = useRef(null)
   const idEl = useRef(null)
   const phoneEl = useRef(null)
@@ -43,12 +43,13 @@ const Create = ({ status, setCreateForm }) => {
     createGuest(data)
       .then(res => {
         if (res.data && res.data.status) {
+          setCreateForm(false)
           dispatch({
             type: 'CREATE_GUEST',
             payload: res.data.newGuest
           })
         } else {
-          alert('Lỗi thêm khách hàng!')
+          alert(res.data.message)
         }
       })
       .catch(err => {
@@ -60,7 +61,7 @@ const Create = ({ status, setCreateForm }) => {
       })
       .then(() => {
         dispatch(toggleLoading(false))
-        setCreateForm(false)
+        dispatch(getAllGuestsAsync({}))
       })
   }
 
@@ -71,7 +72,7 @@ const Create = ({ status, setCreateForm }) => {
         <div id='client-create'>
           <div className='create-container'>
             <form onSubmit={handleSubmit} className='create-form'>
-              <span onClick={() => {setCreateForm(false)}} className='close'>
+              <span onClick={() => { setCreateForm(false) }} className='close'>
                 <i className="fas fa-times"></i>
               </span>
               <h4>Thêm khách hàng</h4>
@@ -85,7 +86,7 @@ const Create = ({ status, setCreateForm }) => {
               </div>
               <div className='create-phone'>
                 <label htmlFor='create_phone'>SĐT: </label>
-                <input required ref={phoneEl} id='create_phone' />
+                <input type='number' required ref={phoneEl} id='create_phone' />
               </div>
               <div className='create-address'>
                 <select required defaultValue='Quận/Huyện' ref={addEl} name="categories">

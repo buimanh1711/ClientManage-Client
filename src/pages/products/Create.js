@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { toggleLoading } from '../../redux/actions'
+import { getAllProductsAsync, toggleLoading } from '../../redux/actions'
 import { createProduct } from '../../services/global'
 import toChar from '../../utils/toChar'
 
@@ -12,7 +12,7 @@ const Create = ({ status, setCreateForm }) => {
   const dispatch = useDispatch()
 
   const categories = useSelector(state => state.global.categories)
-  
+
   const nameEl = useRef(null)
   const categoryEl = useRef(null)
   const priceEl = useRef(null)
@@ -39,11 +39,13 @@ const Create = ({ status, setCreateForm }) => {
     }
 
     const categoryObj = category && JSON.parse(categoryEl.current.value) || null
-    
+
     dispatch(toggleLoading(true))
     createProduct(data)
       .then(res => {
         if (res.data && res.data.status) {
+          setCreateForm(false)
+
           dispatch({
             type: 'CREATE_PRODUCT',
             payload: {
@@ -56,6 +58,7 @@ const Create = ({ status, setCreateForm }) => {
           //   type: 'ERROR',
           //   content: res.data.message
           // }))
+          alert('Sản phẩm đã tồn tại')
         }
       })
       .catch(err => {
@@ -66,7 +69,7 @@ const Create = ({ status, setCreateForm }) => {
       })
       .then(() => {
         dispatch(toggleLoading(false))
-        setCreateForm(false)
+        dispatch(getAllProductsAsync({}))
       })
   }
 
@@ -77,7 +80,7 @@ const Create = ({ status, setCreateForm }) => {
         <div id='product-create'>
           <div className='create-container'>
             <form onSubmit={handleSubmit} className='create-form'>
-              <span onClick={() => {setCreateForm(false)}} className='close'>
+              <span onClick={() => { setCreateForm(false) }} className='close'>
                 <i className="fas fa-times"></i>
               </span>
               <h4>Thêm sản phẩm</h4>

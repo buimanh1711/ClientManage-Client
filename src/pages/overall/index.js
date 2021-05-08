@@ -28,7 +28,7 @@ const Overall = () => {
     <div id='overall-tab'>
       <div className='overall-tab-container'>
         <div className='pie-chart-container'>
-          <h5>Loại khách hàng (Tổng: {totalGuests})</h5>
+          <h5>Loại khách hàng (Tổng số KH: {totalGuests})</h5>
           <PieChart1 />
           <span style={{ background: '#E38627' }}>Đ.Biệt</span>
           <span style={{ background: '#C13C37' }}>VIP</span>

@@ -15,7 +15,7 @@ export const register = (userData) => {
 //GUESTS
 export const getAllGuests = (query) => {
   const { cmnd, start, end, page, search } = query
-  console.log(query)
+
   var url = `/guests?page=${page || 1}&`
   if (cmnd) url = url + `cmnd=${cmnd}&`
   if (start) url = url + `start=${start}&`
@@ -70,7 +70,7 @@ export const getAllUsers = (query) => {
   const { page, search } = query
   let url = `/accounts?page=${page || 1}`
   if (search && search !== '') url = url + `&search=${search}`
-  console.log(url)
+
   return request(url, 'GET')
 }
 
